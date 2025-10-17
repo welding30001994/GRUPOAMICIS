@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Productos - GRUPOAMICIS</title>
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #00b4d8;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --accent-color: #ff6b6b;
+            --success-color: #4CAF50;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: var(--light-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .search-section {
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-color);
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-btn {
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .qr-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .qr-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-color);
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+            margin-bottom: 15px;
+        }
+
+        .qr-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--secondary-color);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--light-color);
+        }
+
+        .product-concept {
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .product-qr {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .qr-code {
+            width: 60px;
+            height: 60px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .qr-text {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--success-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            width: 100%;
+            text-align: center;
+        }
+
+        .whatsapp-btn:hover {
+            background: #3d8b40;
+            transform: translateY(-2px);
+        }
+
+        .whatsapp-btn i {
+            margin-right: 8px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .edit-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .edit-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .search-section {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                min-width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">GRUPOAMICIS</div>
+            <div class="tagline">Exportadora e Importadora Amicis - Sistema de Gestión de Productos</div>
+        </header>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="Buscar productos por nombre...">
+            </div>
+            <button class="search-btn" id="searchBtn">
+                <i class="fas fa-search"></i> Buscar
+            </button>
+        </div>
+
+        <div class="qr-section">
+            <input type="text" id="qrInput" class="qr-input" placeholder="Buscar por código QR...">
+            <button class="search-btn" id="qrSearchBtn">
+                <i class="fas fa-qrcode"></i> Buscar por QR
+            </button>
+        </div>
+
+        <div class="products-grid" id="productsContainer">
+            <!-- Los productos se cargarán aquí con JavaScript -->
+        </div>
+
+        <footer>
+            <p>Exportadora e Importadora Amicis GRUPOAMICIS S.A. &copy; 2023 - Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script>
+        // Datos de ejemplo de productos
+        const products = [
+            {
+                id: 1,
+                name: "Producto 1",
+                image: "foto1.jpg",
+                concept: "Este producto sirve para optimizar procesos industriales, aumentando la eficiencia en un 40% y reduciendo costos operativos.",
+                price: 100,
+                qr: "AMC001"
+            },
+            {
+                id: 2,
+                name: "Producto 2",
+                image: "foto2.jpg",
+                concept: "Solución innovadora para el almacenamiento de datos con tecnología de punta y máxima seguridad.",
+                price: 150,
+                qr: "AMC002"
+            },
+            {
+                id: 3,
+                name: "Producto 3",
+                image: "foto3.jpg",
+                concept: "Herramienta especializada para el sector agrícola que aumenta la productividad y reduce el impacto ambiental.",
+                price: 200,
+                qr: "AMC003"
+            },
+            {
+                id: 4,
+                name: "Producto 4",
+                image: "foto4.jpg",
+                concept: "Dispositivo médico de última generación para diagnóstico preciso y tratamiento eficaz.",
+                price: 350,
+                qr: "AMC004"
+            },
+            {
+                id: 5,
+                name: "Producto 5",
+                image: "foto5.jpg",
+                concept: "Equipo de laboratorio con precisión milimétrica para análisis químicos y biológicos.",
+                price: 500,
+                qr: "AMC005"
+            },
+            {
+                id: 6,
+                name: "Producto 6",
+                image: "foto6.jpg",
+                concept: "Sistema de automatización industrial que optimiza la producción y reduce errores humanos.",
+                price: 1200,
+                qr: "AMC006"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const productsContainer = document.getElementById('productsContainer');
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const qrInput = document.getElementById('qrInput');
+            const qrSearchBtn = document.getElementById('qrSearchBtn');
+
+            // Función para renderizar productos
+            function renderProducts(productsToRender) {
+                productsContainer.innerHTML = '';
+                
+                if (productsToRender.length === 0) {
+                    productsContainer.innerHTML = `
+                        <div class="no-results">
+                            <i class="fas fa-search fa-3x" style="margin-bottom: 15px;"></i>
+                            <h3>No se encontraron productos</h3>
+                            <p>Intenta con otros términos de búsqueda</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                productsToRender.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    productCard.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-name">${product.name}</h3>
+                            <p class="product-concept">${product.concept}</p>
+                            <div class="product-price">$${product.price} USD</div>
+                            <div class="product-qr">
+                                <div class="qr-code">${product.qr}</div>
+                                <div class="qr-text">Código QR: ${product.qr}</div>
+                            </div>
+                            <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20${encodeURIComponent(product.name)}" class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                            </a>
+                            <button class="edit-btn" onclick="editProduct(${product.id})">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                        </div>
+                    `;
+                    productsContainer.appendChild(productCard);
+                });
+            }
+
+            // Función para buscar productos por nombre
+            function searchProducts() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                if (searchTerm === '') {
+                    renderProducts(products);
+                    return;
+                }
+                
+                const filteredProducts = products.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) || 
+                    product.concept.toLowerCase().includes(searchTerm)
+                );
+                
+                renderProducts(filteredProducts);
+            }
+
+            // Función para buscar productos por QR
+            function searchByQR() {
+                const qrTerm = qrInput.value.toUpperCase().trim();
+                if (qrTerm === '') {
+                    renderProducts(products);
+                    return;
+                }
+                
+                const filteredProducts = products.filter(product => 
+                    product.qr.includes(qrTerm)
+                );
+                
+                renderProducts(filteredProducts);
+            }
+
+            // Función para editar producto (simulación)
+            window.editProduct = function(productId) {
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    const newName = prompt("Nuevo nombre del producto:", product.name);
+                    if (newName !== null) product.name = newName;
+                    
+                    const newConcept = prompt("Nuevo concepto del producto:", product.concept);
+                    if (newConcept !== null) product.concept = newConcept;
+                    
+                    const newPrice = prompt("Nuevo precio del producto:", product.price);
+                    if (newPrice !== null && !isNaN(newPrice)) product.price = parseFloat(newPrice);
+                    
+                    const newQR = prompt("Nuevo código QR:", product.qr);
+                    if (newQR !== null) product.qr = newQR;
+                    
+                    renderProducts(products);
+                    alert("Producto actualizado correctamente");
+                }
+            }
+
+            // Event listeners
+            searchBtn.addEventListener('click', searchProducts);
+            qrSearchBtn.addEventListener('click', searchByQR);
+            
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchProducts();
+                }
+            });
+            
+            qrInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchByQR();
+                }
+            });
+
+            // Renderizar todos los productos al cargar la página
+            renderProducts(products);
+        });
+    </script>
+</body>
+</html>

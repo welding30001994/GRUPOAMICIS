@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos Completado</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #4a4a4a;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #25D366, #128C7E);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .edit-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .current-video {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .video-preview {
+            width: 120px;
+            height: 80px;
+            background: #e0e0e0;
+            border-radius: 8px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .video-info h3 {
+            color: #4a4a4a;
+            margin-bottom: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #4a4a4a;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .prev-btn {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .prev-btn:hover {
+            background: #7f8c8d;
+        }
+
+        .next-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        .next-btn:hover {
+            background: #2980b9;
+        }
+
+        .save-btn {
+            background: #27ae60;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #219a52;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #4a4a4a;
+        }
+
+        .product-concept {
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #e74c3c;
+        }
+
+        .whatsapp-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #25D366;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+        }
+
+        .completed-badge {
+            background: #27ae60;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin-left: 10px;
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #9b59b6;
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .download-btn:hover {
+            background: #8e44ad;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .current-video {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .video-preview {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+            }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Catálogo de Productos Completado</h1>
+            <p>Todos los productos han sido configurados</p>
+        </header>
+
+        <div class="video-grid" id="videoGrid">
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 1</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%201.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 2</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%202.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 3</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%203.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Pegues</h3>
+                    <p class="product-concept">pegatinas srive para pegar los precios</p>
+                    <p class="product-price">Precio: $2.18</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Pegues.%20Concepto:%20pegatinas%20srive%20para%20pegar%20los%20precios.%20Precio:%20$2.18" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">dibujos</h3>
+                    <p class="product-concept">juguetes para los niños</p>
+                    <p class="product-price">Precio: $1.3</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20dibujos.%20Concepto:%20juguetes%20para%20los%20ni%C3%B1os.%20Precio:%20$1.3" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video6.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 6</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%206.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video7.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 7</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%207.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video8.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 8</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%208.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video9.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 9</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%209.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video10.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 10</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2010.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video11.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 11</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2011.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video12.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 12</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2012.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video13.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 13</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2013.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video14.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 14</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2014.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video15.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 15</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2015.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video16.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 16</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2016.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video17.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 17</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2017.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video18.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 18</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2018.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video19.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 19</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2019.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video20.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 20</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2020.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video21.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 21</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2021.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video22.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 22</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2022.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video23.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 23</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2023.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video24.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 24</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2024.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video25.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 25</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2025.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video26.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 26</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2026.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video27.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 27</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2027.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video28.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 28</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2028.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video29.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 29</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2029.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video30.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 30</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2030.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video31.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 31</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2031.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video32.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 32</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2032.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video33.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 33</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2033.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video34.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 34</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2034.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video35.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 35</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2035.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video36.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 36</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2036.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video37.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 37</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2037.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video38.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 38</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2038.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video39.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 39</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2039.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video40.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 40</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2040.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video41.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 41</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2041.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video42.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 42</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2042.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video43.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 43</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2043.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video44.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 44</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2044.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video45.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 45</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2045.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video46.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 46</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2046.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video47.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 47</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2047.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video48.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 48</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2048.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video49.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 49</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2049.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video50.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 50</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2050.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video51.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 51</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2051.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video52.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 52</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2052.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video53.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 53</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2053.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video54.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 54</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2054.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video55.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 55</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2055.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video56.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 56</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2056.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video57.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 57</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2057.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video58.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 58</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2058.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video59.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 59</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2059.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video60.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 60</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2060.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video61.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 61</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2061.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video62.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 62</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2062.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video63.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 63</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2063.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video64.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 64</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2064.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video65.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 65</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2065.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video66.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 66</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2066.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video67.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 67</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2067.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video68.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 68</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2068.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video69.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 69</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2069.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video70.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 70</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2070.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video71.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 71</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2071.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video72.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 72</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2072.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video73.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 73</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2073.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video74.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 74</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2074.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video75.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 75</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2075.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video76.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 76</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2076.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video77.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 77</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2077.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video78.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 78</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2078.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video79.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 79</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2079.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video80.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 80</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2080.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video81.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 81</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2081.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video82.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 82</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2082.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video83.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 83</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2083.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video84.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 84</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2084.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video85.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 85</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2085.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video86.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 86</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2086.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video87.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 87</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2087.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video88.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 88</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2088.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video89.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 89</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2089.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video90.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 90</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2090.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video91.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 91</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2091.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video92.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 92</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2092.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video93.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 93</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2093.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video94.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 94</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2094.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video95.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 95</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2095.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video96.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 96</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2096.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video97.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 97</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2097.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video98.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 98</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2098.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video99.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 99</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%2099.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-container">
+                    <video preload="metadata" controls>
+                        <source src="video100.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Producto 100</h3>
+                    <p class="product-concept">Descripción no completada...</p>
+                    <p class="product-price">Precio: $0</p>
+                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20Producto%20100.%20Concepto:%20Descripci%C3%B3n%20no%20completada....%20Precio:%20$0" class="whatsapp-btn" target="_blank">
+                        Solicitar por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Contáctanos: +593 98 612 2265</p>
+        </footer>
+    </div>
+</body>
+</html>
