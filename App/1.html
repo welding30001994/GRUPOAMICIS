@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Productos - Venta Mayor y Menor</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .form-section, .products-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .price-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .price-group > div {
+            flex: 1;
+        }
+        
+        .image-upload {
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            transition: border 0.3s;
+            cursor: pointer;
+        }
+        
+        .image-upload:hover {
+            border-color: var(--primary);
+            background-color: #f8fafc;
+        }
+        
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .preview-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .remove-image {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--danger);
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 0 0 0 5px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-images {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover .product-images img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .product-concept {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .product-code {
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        
+        .product-prices {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .price-mayor, .price-menor {
+            text-align: center;
+        }
+        
+        .price-label {
+            font-size: 0.8rem;
+            color: #777;
+        }
+        
+        .price-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .price-mayor .price-value {
+            color: var(--primary);
+        }
+        
+        .price-menor .price-value {
+            color: var(--secondary);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #777;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background-color: var(--secondary);
+        }
+        
+        .notification.error {
+            background-color: var(--danger);
+        }
+        
+        .product-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .product-actions button {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .product-actions button:hover {
+            opacity: 1;
+        }
+        
+        .delete-btn {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .price-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gestor de Productos</h1>
+            <p class="subtitle">Venta al por mayor y menor - Sube hasta 4 imágenes por producto</p>
+        </header>
+        
+        <div class="app-container">
+            <section class="form-section">
+                <h2 class="section-title">Agregar Producto</h2>
+                
+                <form id="product-form">
+                    <div class="form-group">
+                        <label for="product-name">Nombre del Producto</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-concept">Concepto / Descripción</label>
+                        <textarea id="product-concept" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-code">Código del Producto</label>
+                        <input type="text" id="product-code" required>
+                    </div>
+                    
+                    <div class="form-group price-group">
+                        <div>
+                            <label for="price-mayor">Precio Mayor</label>
+                            <input type="number" id="price-mayor" step="0.01" min="0" required>
+                        </div>
+                        <div>
+                            <label for="price-menor">Precio Menor</label>
+                            <input type="number" id="price-menor" step="0.01" min="0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Imágenes del Producto (Máximo 4)</label>
+                        <div class="image-upload" id="image-upload-area">
+                            <p>Arrastra imágenes aquí o haz clic para seleccionar</p>
+                            <input type="file" id="image-input" accept="image/*" multiple style="display: none;">
+                        </div>
+                        <div class="image-preview" id="image-preview"></div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button type="submit" class="btn btn-primary">
+                            <span>+</span> Agregar Producto
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="download-html">
+                            <span>↓</span> Descargar HTML
+                        </button>
+                        <button type="button" class="btn btn-warning" id="clear-all">
+                            <span>×</span> Limpiar Todo
+                        </button>
+                    </div>
+                </form>
+            </section>
+            
+            <section class="products-section">
+                <h2 class="section-title">Productos Agregados</h2>
+                
+                <div id="products-container">
+                    <div class="empty-state" id="empty-state">
+                        <span>📦</span>
+                        <p>No hay productos agregados todavía.</p>
+                        <p>Comienza agregando tu primer producto.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>Sistema de Gestión de Productos - Venta Mayor y Menor</p>
+        </footer>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Variables globales
+        let products = [];
+        let selectedImages = [];
+        
+        // Elementos del DOM
+        const productForm = document.getElementById('product-form');
+        const productNameInput = document.getElementById('product-name');
+        const productConceptInput = document.getElementById('product-concept');
+        const productCodeInput = document.getElementById('product-code');
+        const priceMayorInput = document.getElementById('price-mayor');
+        const priceMenorInput = document.getElementById('price-menor');
+        const imageInput = document.getElementById('image-input');
+        const imageUploadArea = document.getElementById('image-upload-area');
+        const imagePreview = document.getElementById('image-preview');
+        const productsContainer = document.getElementById('products-container');
+        const emptyState = document.getElementById('empty-state');
+        const downloadHtmlBtn = document.getElementById('download-html');
+        const clearAllBtn = document.getElementById('clear-all');
+        const notification = document.getElementById('notification');
+        
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            setupEventListeners();
+        });
+        
+        function setupEventListeners() {
+            // Eventos para subir imágenes
+            imageUploadArea.addEventListener('click', () => imageInput.click());
+            imageInput.addEventListener('change', handleImageSelection);
+            
+            // Evento para arrastrar y soltar imágenes
+            imageUploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                imageUploadArea.style.borderColor = '#3498db';
+                imageUploadArea.style.backgroundColor = '#f0f8ff';
+            });
+            
+            imageUploadArea.addEventListener('dragleave', () => {
+                imageUploadArea.style.borderColor = '#ddd';
+                imageUploadArea.style.backgroundColor = '';
+            });
+            
+            imageUploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                imageUploadArea.style.borderColor = '#ddd';
+                imageUploadArea.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    imageInput.files = e.dataTransfer.files;
+                    handleImageSelection({ target: imageInput });
+                }
+            });
+            
+            // Eventos de formulario
+            productForm.addEventListener('submit', addProduct);
+            downloadHtmlBtn.addEventListener('click', downloadHtml);
+            clearAllBtn.addEventListener('click', clearAllProducts);
+        }
+        
+        function loadProducts() {
+            const savedProducts = localStorage.getItem('products');
+            if (savedProducts) {
+                products = JSON.parse(savedProducts);
+                renderProducts();
+            }
+        }
+        
+        function saveProducts() {
+            localStorage.setItem('products', JSON.stringify(products));
+        }
+        
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function handleImageSelection(e) {
+            const files = Array.from(e.target.files);
+            
+            // Verificar que no excedamos el límite de 4 imágenes
+            if (selectedImages.length + files.length > 4) {
+                showNotification('Solo puedes subir un máximo de 4 imágenes por producto', 'error');
+                return;
+            }
+            
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        selectedImages.push({
+                            data: e.target.result,
+                            name: file.name
+                        });
+                        renderImagePreviews();
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Limpiar el input para permitir seleccionar las mismas imágenes otra vez
+            imageInput.value = '';
+        }
+        
+        function renderImagePreviews() {
+            imagePreview.innerHTML = '';
+            
+            selectedImages.forEach((image, index) => {
+                const previewItem = document.createElement('div');
+                previewItem.className = 'preview-item';
+                
+                const img = document.createElement('img');
+                img.src = image.data;
+                img.alt = image.name;
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-image';
+                removeBtn.innerHTML = '×';
+                removeBtn.addEventListener('click', () => {
+                    selectedImages.splice(index, 1);
+                    renderImagePreviews();
+                });
+                
+                previewItem.appendChild(img);
+                previewItem.appendChild(removeBtn);
+                imagePreview.appendChild(previewItem);
+            });
+        }
+        
+        function addProduct(e) {
+            e.preventDefault();
+            
+            // Validar que hay al menos una imagen
+            if (selectedImages.length === 0) {
+                showNotification('Debes agregar al menos una imagen del producto', 'error');
+                return;
+            }
+            
+            // Validar que el precio mayor no sea menor que el precio menor
+            if (parseFloat(priceMayorInput.value) < parseFloat(priceMenorInput.value)) {
+                showNotification('El precio mayor no puede ser menor que el precio menor', 'error');
+                return;
+            }
+            
+            // Crear objeto del producto
+            const product = {
+                id: Date.now(),
+                name: productNameInput.value,
+                concept: productConceptInput.value,
+                code: productCodeInput.value,
+                priceMayor: parseFloat(priceMayorInput.value),
+                priceMenor: parseFloat(priceMenorInput.value),
+                images: [...selectedImages]
+            };
+            
+            // Agregar producto a la lista
+            products.push(product);
+            
+            // Guardar en localStorage
+            saveProducts();
+            
+            // Renderizar productos
+            renderProducts();
+            
+            // Limpiar formulario
+            productForm.reset();
+            selectedImages = [];
+            renderImagePreviews();
+            
+            // Mostrar mensaje de éxito
+            showNotification('Producto agregado correctamente');
+        }
+        
+        function deleteProduct(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+                products = products.filter(product => product.id !== id);
+                saveProducts();
+                renderProducts();
+                showNotification('Producto eliminado correctamente');
+            }
+        }
+        
+        function renderProducts() {
+            if (products.length === 0) {
+                emptyState.style.display = 'block';
+                productsContainer.innerHTML = '';
+                productsContainer.appendChild(emptyState);
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            const productGrid = document.createElement('div');
+            productGrid.className = 'product-grid';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                // Imágenes del producto (mostrar solo la primera)
+                const productImages = document.createElement('div');
+                productImages.className = 'product-images';
+                
+                const img = document.createElement('img');
+                img.src = product.images[0].data;
+                img.alt = product.name;
+                
+                productImages.appendChild(img);
+                
+                // Botones de acción
+                const productActions = document.createElement('div');
+                productActions.className = 'product-actions';
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.innerHTML = '×';
+                deleteBtn.title = 'Eliminar producto';
+                deleteBtn.addEventListener('click', () => deleteProduct(product.id));
+                
+                productActions.appendChild(deleteBtn);
+                
+                // Información del producto
+                const productInfo = document.createElement('div');
+                productInfo.className = 'product-info';
+                
+                const productName = document.createElement('h3');
+                productName.className = 'product-name';
+                productName.textContent = product.name;
+                
+                const productConcept = document.createElement('p');
+                productConcept.className = 'product-concept';
+                productConcept.textContent = product.concept;
+                
+                const productCode = document.createElement('p');
+                productCode.className = 'product-code';
+                productCode.textContent = `Código: ${product.code}`;
+                
+                const productPrices = document.createElement('div');
+                productPrices.className = 'product-prices';
+                
+                const priceMayor = document.createElement('div');
+                priceMayor.className = 'price-mayor';
+                
+                const priceMayorLabel = document.createElement('div');
+                priceMayorLabel.className = 'price-label';
+                priceMayorLabel.textContent = 'Precio Mayor';
+                
+                const priceMayorValue = document.createElement('div');
+                priceMayorValue.className = 'price-value';
+                priceMayorValue.textContent = `$${product.priceMayor.toFixed(2)}`;
+                
+                priceMayor.appendChild(priceMayorLabel);
+                priceMayor.appendChild(priceMayorValue);
+                
+                const priceMenor = document.createElement('div');
+                priceMenor.className = 'price-menor';
+                
+                const priceMenorLabel = document.createElement('div');
+                priceMenorLabel.className = 'price-label';
+                priceMenorLabel.textContent = 'Precio Menor';
+                
+                const priceMenorValue = document.createElement('div');
+                priceMenorValue.className = 'price-value';
+                priceMenorValue.textContent = `$${product.priceMenor.toFixed(2)}`;
+                
+                priceMenor.appendChild(priceMenorLabel);
+                priceMenor.appendChild(priceMenorValue);
+                
+                productPrices.appendChild(priceMayor);
+                productPrices.appendChild(priceMenor);
+                
+                productInfo.appendChild(productName);
+                productInfo.appendChild(productConcept);
+                productInfo.appendChild(productCode);
+                productInfo.appendChild(productPrices);
+                
+                productCard.appendChild(productImages);
+                productCard.appendChild(productActions);
+                productCard.appendChild(productInfo);
+                
+                productGrid.appendChild(productCard);
+            });
+            
+            productsContainer.innerHTML = '';
+            productsContainer.appendChild(productGrid);
+        }
+        
+        function downloadHtml() {
+            if (products.length === 0) {
+                showNotification('No hay productos para descargar', 'error');
+                return;
+            }
+            
+            // Crear el contenido HTML para el archivo
+            let htmlContent = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .product-images {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .product-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .product-concept {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .product-code {
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        
+        .product-prices {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .price-mayor, .price-menor {
+            text-align: center;
+        }
+        
+        .price-label {
+            font-size: 0.8rem;
+            color: #777;
+        }
+        
+        .price-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .price-mayor .price-value {
+            color: #3498db;
+        }
+        
+        .price-menor .price-value {
+            color: #2ecc71;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Catálogo de Productos</h1>
+            <p>Venta al por mayor y menor</p>
+        </header>
+        
+        <div class="product-grid">`;
+            
+            // Agregar cada producto al HTML
+            products.forEach(product => {
+                htmlContent += `
+            <div class="product-card">
+                <div class="product-images">
+                    <img src="${product.images[0].data}" alt="${product.name}">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">${product.name}</h3>
+                    <p class="product-concept">${product.concept}</p>
+                    <p class="product-code">Código: ${product.code}</p>
+                    <div class="product-prices">
+                        <div class="price-mayor">
+                            <div class="price-label">Precio Mayor</div>
+                            <div class="price-value">$${product.priceMayor.toFixed(2)}</div>
+                        </div>
+                        <div class="price-menor">
+                            <div class="price-label">Precio Menor</div>
+                            <div class="price-value">$${product.priceMenor.toFixed(2)}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            });
+            
+            htmlContent += `
+        </div>
+        
+        <footer>
+            <p>Catálogo generado automáticamente - Todos los derechos reservados</p>
+        </footer>
+    </div>
+</body>
+</html>`;
+            
+            // Crear y descargar el archivo
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'catalogo-productos.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Catálogo descargado correctamente');
+        }
+        
+        function clearAllProducts() {
+            if (products.length === 0) {
+                showNotification('No hay productos para eliminar', 'error');
+                return;
+            }
+            
+            if (confirm('¿Estás seguro de que quieres eliminar todos los productos? Esta acción no se puede deshacer.')) {
+                products = [];
+                saveProducts();
+                renderProducts();
+                showNotification('Todos los productos han sido eliminados');
+            }
+        }
+    </script>
+</body>
+</html>
