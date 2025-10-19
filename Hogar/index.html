@@ -400,6 +400,31 @@
             display: block;
         }
 
+        /* Estilos para el video de TikTok */
+        .tiktok-video-container {
+            width: 100%;
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .tiktok-video {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tiktok-video iframe {
+            width: 100%;
+            height: 620px;
+            border: none;
+        }
+
         @media (max-width: 768px) {
             .product-container {
                 flex-direction: column;
@@ -415,6 +440,14 @@
             
             .btn {
                 width: 100%;
+            }
+            
+            .tiktok-video {
+                max-width: 100%;
+            }
+            
+            .tiktok-video iframe {
+                height: 500px;
             }
         }
     </style>
@@ -444,6 +477,13 @@
                     <div class="slider-dot active" data-index="0"></div>
                     <div class="slider-dot" data-index="1"></div>
                     <div class="slider-dot" data-index="2"></div>
+                </div>
+                
+                <!-- Video de TikTok añadido aquí -->
+                <div class="tiktok-video-container">
+                    <div class="tiktok-video">
+                        <iframe src="https://www.tiktok.com/embed/7562561739305291016" allowfullscreen></iframe>
+                    </div>
                 </div>
             </div>
             
@@ -506,10 +546,11 @@
         let currentSlide = 0;
         let quantity = 1;
         let cart = [];
+
         const retailPrice = 12.00;
         const wholesalePrice = 6.10;
         const wholesaleThreshold = 12;
-        
+
         const product = {
             name: "Serie fruit cube",
             code: "RFD357862",
