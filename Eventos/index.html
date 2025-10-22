@@ -3,305 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos</title>
+    <title>Catálogo de Productos - Bodega</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #ff6b6b;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f5f5f5;
+            --gray: #2a2a2a;
+            --text: #e0e0e0;
+            --text-secondary: #a0a0a0;
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--text);
             min-height: 100vh;
-            padding: 20px;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 20px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: white;
+            padding: 30px 20px;
+            background: rgba(18, 18, 18, 0.8);
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
         }
 
         h1 {
-            color: #4a4a4a;
+            font-size: 2.8rem;
             margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            margin: 15px 0;
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .search-container {
+            display: flex;
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(42, 42, 42, 0.7);
+            border-radius: 50px;
             overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .progress {
-            height: 100%;
-            background: linear-gradient(90deg, #25D366, #128C7E);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .edit-section {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .current-video {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .video-preview {
-            width: 120px;
-            height: 80px;
-            background: #e0e0e0;
-            border-radius: 8px;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 0.8rem;
-            text-align: center;
-        }
-
-        .video-info h3 {
-            color: #4a4a4a;
-            margin-bottom: 5px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #4a4a4a;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: #667eea;
+        #search-input {
+            flex: 1;
+            padding: 18px 25px;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 16px;
             outline: none;
         }
 
-        .form-group textarea {
-            height: 100px;
-            resize: vertical;
+        #search-input::placeholder {
+            color: var(--text-secondary);
         }
 
-        .navigation-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: space-between;
-        }
-
-        .nav-btn {
-            padding: 12px 25px;
+        #search-button {
+            padding: 0 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
             border: none;
-            border-radius: 8px;
-            font-weight: bold;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
-        .prev-btn {
-            background: #95a5a6;
+        #search-button:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            transform: scale(1.05);
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(42, 42, 42, 0.7);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
         }
 
-        .prev-btn:hover {
-            background: #7f8c8d;
+        .results-info {
+            text-align: center;
+            margin: 25px 0;
+            font-size: 18px;
+            color: var(--text-secondary);
         }
 
-        .next-btn {
-            background: #3498db;
-            color: white;
+        .highlight {
+            color: var(--accent);
+            font-weight: bold;
         }
 
-        .next-btn:hover {
-            background: #2980b9;
-        }
-
-        .save-btn {
-            background: #27ae60;
-            color: white;
-        }
-
-        .save-btn:hover {
-            background: #219a52;
-        }
-
-        .video-grid {
+        .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
         }
 
-        .video-card {
-            background: white;
+        .product-card {
+            background: rgba(42, 42, 42, 0.7);
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
         }
 
-        .video-card:hover {
-            transform: translateY(-5px);
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(106, 17, 203, 0.3);
         }
 
-        .video-container {
-            position: relative;
+        .product-image {
+            height: 200px;
             width: 100%;
-            height: 180px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
+            position: relative;
         }
 
-        .video-container video {
+        .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
         }
 
         .product-info {
-            padding: 15px;
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-code {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 14px;
+            letter-spacing: 1px;
         }
 
         .product-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #4a4a4a;
-        }
-
-        .product-concept {
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-            color: #666;
+            color: var(--text);
+            margin-bottom: 15px;
+            font-size: 18px;
             line-height: 1.4;
+            flex-grow: 1;
         }
 
         .product-price {
-            font-size: 1.1rem;
             font-weight: bold;
-            margin-bottom: 12px;
-            color: #e74c3c;
+            color: var(--accent);
+            font-size: 22px;
+            text-align: right;
+            margin-top: 10px;
         }
 
-        .whatsapp-btn {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background: #25D366;
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stock {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .stock.in-stock {
+            color: #4cd964;
+        }
+
+        .stock.low-stock {
+            color: #ffcc00;
+        }
+
+        .stock.no-stock {
+            color: var(--accent);
+        }
+
+        .add-to-cart {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            text-align: center;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .whatsapp-btn:hover {
-            background: #128C7E;
-        }
-
-        .completed-badge {
-            background: #27ae60;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            margin-left: 10px;
-        }
-
-        .download-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: #9b59b6;
-            color: white;
-            text-align: center;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: background 0.3s ease;
             border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
             cursor: pointer;
-            margin-bottom: 20px;
+            font-size: 14px;
+            transition: all 0.3s ease;
         }
 
-        .download-btn:hover {
-            background: #8e44ad;
+        .add-to-cart:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 18px;
+            grid-column: 1 / -1;
         }
 
         footer {
             text-align: center;
-            margin-top: 30px;
-            padding: 15px;
-            color: white;
-            font-size: 0.9rem;
+            margin-top: 50px;
+            padding: 30px;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         @media (max-width: 768px) {
-            .video-grid {
+            .product-grid {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
             
-            .current-video {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .search-container {
                 flex-direction: column;
-                text-align: center;
+                border-radius: 15px;
             }
             
-            .video-preview {
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .video-grid {
-                grid-template-columns: 1fr;
+            #search-input {
+                padding: 15px 20px;
             }
             
-            body {
-                padding: 10px;
-            }
-            
-            .navigation-buttons {
-                flex-direction: column;
+            #search-button {
+                padding: 15px;
+                border-radius: 0 0 15px 15px;
             }
         }
     </style>
@@ -310,266 +311,366 @@
     <div class="container">
         <header>
             <h1>Catálogo de Productos</h1>
-            <p>Edita la información de cada producto en orden</p>
-            <div class="progress-bar">
-                <div class="progress" id="progressBar"></div>
-            </div>
-            <p>Progreso: <span id="progressText">0</span> de 100 productos completados</p>
-        </header>
-
-        <div class="edit-section">
-            <div class="current-video">
-                <div class="video-preview">
-                    Video <span id="currentVideoNumber">1</span>
-                </div>
-                <div class="video-info">
-                    <h3>Editando: <span id="currentVideoTitle">Video 1</span></h3>
-                    <p>Completa la información de este producto para continuar</p>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="productName">Nombre del Producto:</label>
-                <input type="text" id="productName" placeholder="Ej: Zapatos Deportivos">
-            </div>
-            <div class="form-group">
-                <label for="productConcept">Concepto/Descripción:</label>
-                <textarea id="productConcept" placeholder="Ej: Zapatos ideales para running y entrenamiento..."></textarea>
-            </div>
-            <div class="form-group">
-                <label for="productPrice">Precio ($):</label>
-                <input type="number" id="productPrice" placeholder="Ej: 59.99">
+            <p class="subtitle">Bodega AMICIS - Encuentra lo que necesitas</p>
+            
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Buscar por código o nombre del producto...">
+                <button id="search-button"><i class="fas fa-search"></i> Buscar</button>
             </div>
             
-            <div class="navigation-buttons">
-                <button class="nav-btn prev-btn" id="prevBtn">Anterior</button>
-                <button class="nav-btn save-btn" id="saveBtn">Guardar y Siguiente</button>
-                <button class="nav-btn next-btn" id="nextBtn">Siguiente</button>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="carcasa">Carcasas</button>
+                <button class="filter-btn" data-filter="max">MAX</button>
+                <button class="filter-btn" data-filter="accesorio">Accesorios</button>
             </div>
+        </header>
+        
+        <div class="results-info" id="results-info">
+            Mostrando <span class="highlight">23</span> productos en bodega
         </div>
-
-        <button class="download-btn" id="downloadBtn">
-            Descargar Catálogo Completo
-        </button>
-
-        <div class="video-grid" id="videoGrid">
-            <!-- Los videos se generarán automáticamente con JavaScript -->
+        
+        <div class="product-grid" id="product-grid">
+            <!-- Los productos se cargarán aquí dinámicamente -->
         </div>
-
+        
         <footer>
-            <p>Contáctanos: +593 98 612 2265</p>
+            <p>&copy; 2025 Bodega AMICIS - Sistema de Catálogo de Productos</p>
         </footer>
     </div>
 
     <script>
-        // Información de productos (inicialmente vacía)
-        let products = Array(100).fill().map((_, i) => ({
-            name: `Producto ${i+1}`,
-            concept: "Descripción no completada...",
-            price: 0,
-            completed: false
-        }));
-
-        let currentVideoIndex = 0; // Comenzamos con el video 1 (índice 0)
-
-        const videoGrid = document.getElementById('videoGrid');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
-        const currentVideoNumber = document.getElementById('currentVideoNumber');
-        const currentVideoTitle = document.getElementById('currentVideoTitle');
-        
-        // Elementos del formulario
-        const productNameInput = document.getElementById('productName');
-        const productConceptInput = document.getElementById('productConcept');
-        const productPriceInput = document.getElementById('productPrice');
-        
-        // Botones de navegación
-        const prevBtn = document.getElementById('prevBtn');
-        const saveBtn = document.getElementById('saveBtn');
-        const nextBtn = document.getElementById('nextBtn');
-
-        // Actualizar la vista con el video actual
-        function updateCurrentVideo() {
-            const currentProduct = products[currentVideoIndex];
-            
-            currentVideoNumber.textContent = currentVideoIndex + 1;
-            currentVideoTitle.textContent = `Video ${currentVideoIndex + 1}`;
-            
-            // Cargar datos del producto actual en el formulario
-            productNameInput.value = currentProduct.name;
-            productConceptInput.value = currentProduct.concept;
-            productPriceInput.value = currentProduct.price;
-            
-            // Actualizar estado de botones
-            prevBtn.disabled = currentVideoIndex === 0;
-            nextBtn.disabled = currentVideoIndex === 99;
-            
-            // Actualizar progreso
-            updateProgress();
-            
-            // Regenerar la vista de la cuadrícula
-            generateVideoCards();
-        }
-
-        // Actualizar barra de progreso
-        function updateProgress() {
-            const completedCount = products.filter(p => p.completed).length;
-            const progressPercentage = completedCount;
-            
-            progressBar.style.width = `${progressPercentage}%`;
-            progressText.textContent = completedCount;
-        }
-
-        // Guardar producto actual
-        function saveCurrentProduct() {
-            const name = productNameInput.value.trim() || `Producto ${currentVideoIndex + 1}`;
-            const concept = productConceptInput.value.trim() || "Descripción del producto...";
-            const price = parseFloat(productPriceInput.value) || 0;
-            
-            products[currentVideoIndex] = {
-                name: name,
-                concept: concept,
-                price: price,
-                completed: true
-            };
-            
-            // Avanzar al siguiente video automáticamente
-            if (currentVideoIndex < 99) {
-                currentVideoIndex++;
-                updateCurrentVideo();
+        // Datos de productos con imágenes diferentes
+        const products = [
+            { 
+                code: "6852345547511", 
+                name: "AM HIGH QUALITY MOSQUITO NET. MOSQUITERO", 
+                price: "10,00",
+                category: "accesorio",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "7861038062483", 
+                name: "ANTIBACTERIANTE", 
+                price: "2,10",
+                category: "accesorio",
+                stock: "medium",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "6202110243207", 
+                name: "KIT PARA BEBE ACCESORIO HOGAR AM", 
+                price: "1,60",
+                category: "accesorio",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1192 11", 
+                name: "ARCOIRIS CH_CARCASA", 
+                price: "1,00",
+                category: "carcasa",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1530 11", 
+                name: "BORDE DE COLOR CH_CARCASA", 
+                price: "1,00",
+                category: "carcasa",
+                stock: "low",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1484 11", 
+                name: "BROCHE UNICOLOR CH_CARCASA", 
+                price: "1,00",
+                category: "carcasa",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1415 11", 
+                name: "ESCARCHADO CON BROCHE CH_CARCASA", 
+                price: "1,00",
+                category: "carcasa",
+                stock: "medium",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1507 11", 
+                name: "FLOWERS CADENA CH_CARCASA", 
+                price: "1,00",
+                category: "carcasa",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1179 11", 
+                name: "LADYS SENCILLO CH_CARCASA", 
+                price: "1,00",
+                category: "carcasa",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1438 11", 
+                name: "LOVE CORAZON CH_CARCASA", 
+                price: "1,00",
+                category: "carcasa",
+                stock: "medium",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1462 11", 
+                name: "MAX AMOR - CARCASA", 
+                price: "1,00",
+                category: "max",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1311 11", 
+                name: "MAX ANILLO_CARCASA", 
+                price: "1,00",
+                category: "max",
+                stock: "low",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1403 11", 
+                name: "MAX ANILLO_CARCASA", 
+                price: "1,00",
+                category: "max",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1167 11", 
+                name: "MAX CADENA CORAZONES CH_CARCASA", 
+                price: "1,00",
+                category: "max",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1144 11", 
+                name: "MAX CORAZON_CARCASA", 
+                price: "1,00",
+                category: "max",
+                stock: "medium",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1180 11", 
+                name: "MAX LADYS SENCILLO CH_CARCASA", 
+                price: "1,00",
+                category: "max",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1052 11", 
+                name: "MAX MATE CHINA_CARCASA", 
+                price: "0,20",
+                category: "max",
+                stock: "low",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1216 11", 
+                name: "MAX MATIZADO - CARCASA", 
+                price: "1,00",
+                category: "max",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1356 11", 
+                name: "MAX PERLAS_CARCASA", 
+                price: "1,00",
+                category: "max",
+                stock: "medium",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1128 11", 
+                name: "MAX PROTECTOR_CARCASA", 
+                price: "1,00",
+                category: "max",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1334 11", 
+                name: "MAX SUPREME_CARCASA", 
+                price: "1,00",
+                category: "max",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1096 11", 
+                name: "MAX TRANSPARENTE CH_CARCASA", 
+                price: "1,00",
+                category: "max",
+                stock: "medium",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            { 
+                code: "HD1355 11", 
+                name: "PERLAS - CARCASA", 
+                price: "1,00",
+                category: "carcasa",
+                stock: "high",
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
             }
-        }
+        ];
 
-        // Generar las tarjetas de video
-        function generateVideoCards() {
-            videoGrid.innerHTML = '';
+        // Elementos del DOM
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const resultsInfo = document.getElementById('results-info');
+        const productGrid = document.getElementById('product-grid');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        // Variables de estado
+        let currentFilter = 'all';
+        let currentSearchTerm = '';
+
+        // Función para mostrar productos
+        function displayProducts(productsToShow) {
+            productGrid.innerHTML = '';
             
-            for (let i = 0; i < 100; i++) {
-                const product = products[i];
-                const isCurrent = i === currentVideoIndex;
-                
-                const videoCard = document.createElement('div');
-                videoCard.className = `video-card ${isCurrent ? 'current' : ''}`;
-                if (isCurrent) {
-                    videoCard.style.border = '2px solid #3498db';
-                }
-                
-                videoCard.innerHTML = `
-                    <div class="video-container">
-                        <video preload="metadata" controls>
-                            <source src="video${i+1}.mp4" type="video/mp4">
-                            Tu navegador no soporta el elemento video.
-                        </video>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">${product.name} 
-                            ${product.completed ? '<span class="completed-badge">Completado</span>' : ''}
-                        </h3>
-                        <p class="product-concept">${product.concept}</p>
-                        <p class="product-price">Precio: $${product.price}</p>
-                        <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20${encodeURIComponent(product.name)}.%20Concepto:%20${encodeURIComponent(product.concept)}.%20Precio:%20$${product.price}" class="whatsapp-btn" target="_blank">
-                            Solicitar por WhatsApp
-                        </a>
+            if (productsToShow.length === 0) {
+                productGrid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search fa-3x" style="margin-bottom: 20px; opacity: 0.5;"></i>
+                        <p>No se encontraron productos que coincidan con tu búsqueda</p>
                     </div>
                 `;
+                return;
+            }
+            
+            productsToShow.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
                 
-                // Hacer clic en la tarjeta para ir a ese video
-                videoCard.addEventListener('click', () => {
-                    currentVideoIndex = i;
-                    updateCurrentVideo();
-                });
+                let stockText = '';
+                let stockClass = '';
                 
-                videoGrid.appendChild(videoCard);
+                if (product.stock === 'high') {
+                    stockText = 'En Stock';
+                    stockClass = 'in-stock';
+                } else if (product.stock === 'medium') {
+                    stockText = 'Stock Medio';
+                    stockClass = 'low-stock';
+                } else {
+                    stockText = 'Stock Bajo';
+                    stockClass = 'no-stock';
+                }
+                
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-code">${product.code}</div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">$${product.price}</div>
+                        <div class="product-footer">
+                            <div class="stock ${stockClass}">
+                                <i class="fas fa-box"></i> ${stockText}
+                            </div>
+                            <button class="add-to-cart">
+                                <i class="fas fa-cart-plus"></i> Agregar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productGrid.appendChild(productCard);
+            });
+        }
+
+        // Función para filtrar productos
+        function filterProducts() {
+            let filteredProducts = products;
+            
+            // Aplicar filtro de categoría
+            if (currentFilter !== 'all') {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.category === currentFilter
+                );
+            }
+            
+            // Aplicar búsqueda
+            if (currentSearchTerm !== '') {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.code.toLowerCase().includes(currentSearchTerm) || 
+                    product.name.toLowerCase().includes(currentSearchTerm)
+                );
+            }
+            
+            displayProducts(filteredProducts);
+            updateResultsInfo(filteredProducts.length);
+        }
+
+        // Función para actualizar la información de resultados
+        function updateResultsInfo(count) {
+            const highlight = resultsInfo.querySelector('.highlight');
+            highlight.textContent = count;
+            
+            if (currentSearchTerm !== '' && currentFilter !== 'all') {
+                resultsInfo.textContent = `Se encontraron ${count} producto(s) para "${currentSearchTerm}" en ${getFilterName(currentFilter)}`;
+            } else if (currentSearchTerm !== '') {
+                resultsInfo.textContent = `Se encontraron ${count} producto(s) para "${currentSearchTerm}"`;
+            } else if (currentFilter !== 'all') {
+                resultsInfo.textContent = `Mostrando ${count} producto(s) en ${getFilterName(currentFilter)}`;
+            } else {
+                resultsInfo.textContent = `Mostrando ${count} productos en bodega`;
             }
         }
 
-        // Event Listeners
-        saveBtn.addEventListener('click', saveCurrentProduct);
+        // Función para obtener el nombre del filtro
+        function getFilterName(filter) {
+            switch(filter) {
+                case 'carcasa': return 'Carcasas';
+                case 'max': return 'MAX';
+                case 'accesorio': return 'Accesorios';
+                default: return 'Todos';
+            }
+        }
 
-        prevBtn.addEventListener('click', () => {
-            if (currentVideoIndex > 0) {
-                currentVideoIndex--;
-                updateCurrentVideo();
+        // Event listeners
+        searchButton.addEventListener('click', () => {
+            currentSearchTerm = searchInput.value.toLowerCase().trim();
+            filterProducts();
+        });
+        
+        searchInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                currentSearchTerm = searchInput.value.toLowerCase().trim();
+                filterProducts();
             }
         });
-
-        nextBtn.addEventListener('click', () => {
-            if (currentVideoIndex < 99) {
-                currentVideoIndex++;
-                updateCurrentVideo();
-            }
+        
+        searchInput.addEventListener('input', () => {
+            currentSearchTerm = searchInput.value.toLowerCase().trim();
+            filterProducts();
         });
 
-        // Descargar HTML modificado
-        downloadBtn.addEventListener('click', () => {
-            // Crear un nuevo documento HTML con los productos modificados
-            let htmlContent = `<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos Completado</title>
-    <style>
-        ${document.querySelector('style').innerHTML}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Catálogo de Productos Completado</h1>
-            <p>Todos los productos han sido configurados</p>
-        </header>
-
-        <div class="video-grid" id="videoGrid">`;
-
-            // Generar el contenido de las tarjetas de video
-            for (let i = 0; i < 100; i++) {
-                const product = products[i];
-                
-                htmlContent += `
-            <div class="video-card">
-                <div class="video-container">
-                    <video preload="metadata" controls>
-                        <source src="video${i+1}.mp4" type="video/mp4">
-                        Tu navegador no soporta el elemento video.
-                    </video>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">${product.name}</h3>
-                    <p class="product-concept">${product.concept}</p>
-                    <p class="product-price">Precio: $${product.price}</p>
-                    <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20el%20${encodeURIComponent(product.name)}.%20Concepto:%20${encodeURIComponent(product.concept)}.%20Precio:%20$${product.price}" class="whatsapp-btn" target="_blank">
-                        Solicitar por WhatsApp
-                    </a>
-                </div>
-            </div>`;
-            }
-
-            htmlContent += `
-        </div>
-
-        <footer>
-            <p>Contáctanos: +593 98 612 2265</p>
-        </footer>
-    </div>
-</body>
-</html>`;
-
-            // Crear un blob y descargar el archivo
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'catalogo_productos_completo.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentFilter = button.getAttribute('data-filter');
+                filterProducts();
+            });
         });
 
-        // Inicializar la página
-        updateCurrentVideo();
+        // Inicializar con todos los productos
+        filterProducts();
     </script>
 </body>
 </html>
