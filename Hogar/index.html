@@ -474,6 +474,7 @@
     <script>
         // Datos de productos con URLs de imagen diferentes
         const products = [
+
 {
   code: "6852345547511", 
   name: "AM HIGH QUALITY MOSQUITO NET. MOSQUITERO",
@@ -635,7 +636,7 @@
   code: "HD1531", 
   name: "11MAX BORDE DE COLOR CH_CARCASA",
   price: 1.00,
-  image: " "
+  image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/Bodega/HD3674.jpeg "
 },
 {
   code: "HD1485", 
@@ -1357,6 +1358,8 @@
   price: 1.00,
   image: " "
 },
+
+
 
 {
   code: "HD1498", 
@@ -8917,7 +8920,13 @@
   name: "PERFUME 80ML RSS8223",
   price: 3.70,
   image: " "
-},
+}
+
+
+
+
+ 
+ 
 
 
 
@@ -8928,6 +8937,10 @@
 
 
 
+ 
+ 
+ 
+ 
         ];
 
         // Variables globales
@@ -9187,7 +9200,7 @@
             updateCartCount();
         }
 
-        // Enviar pedido por WhatsApp
+        // Enviar pedido por WhatsApp - FUNCIÓN CORREGIDA
         function sendToWhatsApp() {
             if (cart.length === 0) {
                 showNotification('El carrito está vacío');
@@ -9221,19 +9234,19 @@
             message += '⏰ *Por favor confirmar disponibilidad*%0A%0A';
             message += '¡Gracias! 🙏';
             
-            // Crear URL de WhatsApp
-            const whatsappUrl = `https://api.whatsapp.com/send/?phone=${phoneNumber}&text=${message}&type=phone_number&app_absent=0`;
+            // URL de WhatsApp universal que funciona en todos los dispositivos
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
             
-            // Abrir en nueva ventana
+            // Abrir WhatsApp - funciona con un solo click
             window.open(whatsappUrl, '_blank');
             
             // Mostrar confirmación
-            showNotification('Pedido enviado a WhatsApp');
+            showNotification('Abriendo WhatsApp...');
             
             // Cerrar el carrito después de enviar
             setTimeout(() => {
                 closeCartModal();
-            }, 1500);
+            }, 1000);
         }
 
         // Inicializar la aplicación
