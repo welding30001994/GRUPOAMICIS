@@ -3,521 +3,1226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Productos - GRUPOAMICIS</title>
+    <title>Tienda Futurista - Carrito de Compras</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #6c63ff;
-            --secondary-color: #00b4d8;
-            --dark-color: #1a1a2e;
-            --light-color: #f8f9fa;
-            --accent-color: #ff6b6b;
-            --success-color: #4CAF50;
-            --transition: all 0.3s ease;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #00ffcc;
+            --dark: #0a0a1a;
+            --darker: #050510;
+            --light: #f0f0ff;
+            --gray: #a0a0c0;
+        }
+        
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: var(--light-color);
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--light);
             line-height: 1.6;
             min-height: 100vh;
-            padding: 20px;
+            overflow-x: hidden;
         }
-
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(106, 17, 203, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(37, 117, 252, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 255, 204, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
-
+        
         header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
+            background: rgba(10, 10, 26, 0.8);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(106, 17, 203, 0.3);
+            border-radius: 15px;
+            padding: 20px 0;
+            margin-bottom: 30px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
-
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+        
         .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(106, 17, 203, 0.5);
         }
-
-        .tagline {
-            font-size: 1.2rem;
-            opacity: 0.8;
-        }
-
-        .search-section {
-            margin-bottom: 30px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 300px;
+        
+        .cart-icon-container {
             position: relative;
         }
-
-        .search-input {
-            width: 100%;
-            padding: 15px 20px;
-            border-radius: 50px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light-color);
-            font-size: 1rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: var(--transition);
-        }
-
-        .search-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--primary-color);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .search-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .search-btn {
-            padding: 15px 25px;
-            border-radius: 50px;
-            border: none;
-            background: var(--primary-color);
-            color: white;
-            font-weight: 600;
+        
+        .cart-icon {
+            font-size: 24px;
             cursor: pointer;
-            transition: var(--transition);
+            color: var(--light);
+            background: rgba(106, 17, 203, 0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(106, 17, 203, 0.5);
         }
-
-        .search-btn:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
+        
+        .cart-icon:hover {
+            background: rgba(106, 17, 203, 0.4);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(106, 17, 203, 0.5);
         }
-
-        .qr-section {
-            margin-top: 20px;
-            text-align: center;
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(106, 17, 203, 0.7);
         }
-
-        .qr-input {
+        
+        .search-container {
+            margin: 20px 0;
+            padding: 0 30px;
+        }
+        
+        .search-box {
             width: 100%;
-            max-width: 400px;
-            padding: 15px 20px;
+            padding: 15px 25px;
+            background: rgba(10, 10, 26, 0.6);
+            border: 1px solid rgba(106, 17, 203, 0.4);
             border-radius: 50px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light-color);
-            font-size: 1rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: var(--transition);
-            margin-bottom: 15px;
-        }
-
-        .qr-input:focus {
+            font-size: 16px;
+            color: var(--light);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             outline: none;
-            box-shadow: 0 0 0 2px var(--secondary-color);
-            background: rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
         }
-
+        
+        .search-box:focus {
+            border-color: var(--accent);
+            box-shadow: 0 5px 20px rgba(0, 255, 204, 0.3);
+        }
+        
+        .search-box::placeholder {
+            color: var(--gray);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
-            margin-top: 30px;
         }
-
+        
         .product-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(10, 10, 26, 0.7);
+            backdrop-filter: blur(10px);
             border-radius: 15px;
             overflow: hidden;
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(106, 17, 203, 0.2);
+            position: relative;
         }
-
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+        
         .product-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(106, 17, 203, 0.5);
         }
-
+        
+        .product-card:hover::before {
+            opacity: 1;
+        }
+        
         .product-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            display: block;
-            background: linear-gradient(45deg, #2d3047, #1a1a2e);
+            background-color: var(--darker);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
+            color: var(--gray);
+            position: relative;
+            overflow: hidden;
         }
-
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
         .product-info {
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
-
+        
         .product-name {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            color: var(--light-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: var(--light);
         }
-
-        .product-concept {
-            margin-bottom: 15px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.95rem;
-            line-height: 1.5;
+        
+        .product-code {
+            color: var(--gray);
+            font-size: 12px;
+            margin-bottom: 12px;
         }
-
+        
         .product-price {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--secondary-color);
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 20px;
             margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
         }
-
-        .product-qr {
+        
+        .add-to-cart {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .add-to-cart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .add-to-cart:hover::before {
+            left: 100%;
+        }
+        
+        .add-to-cart:hover {
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .cart-section {
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            height: fit-content;
+            border: 1px solid rgba(106, 17, 203, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cart-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        
+        .cart-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(106, 17, 203, 0.3);
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .cart-title i {
+            color: var(--accent);
+        }
+        
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .cart-items::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .cart-items::-webkit-scrollbar-track {
+            background: rgba(10, 10, 26, 0.5);
+            border-radius: 10px;
+        }
+        
+        .cart-items::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(106, 17, 203, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .cart-item:hover {
+            background: rgba(106, 17, 203, 0.1);
+            border-radius: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .cart-item-image {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
             border-radius: 8px;
-        }
-
-        .qr-code {
-            width: 60px;
-            height: 60px;
-            background: white;
+            margin-right: 15px;
+            background-color: var(--darker);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 5px;
-            font-weight: bold;
-            color: var(--dark-color);
-            font-size: 0.8rem;
-            text-align: center;
-            padding: 5px;
+            color: var(--gray);
+            font-size: 12px;
+            border: 1px solid rgba(106, 17, 203, 0.3);
+            overflow: hidden;
         }
-
-        .qr-text {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .whatsapp-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--success-color);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: var(--transition);
+        
+        .cart-item-image img {
             width: 100%;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .whatsapp-btn:hover {
-            background: #3d8b40;
-            transform: translateY(-2px);
-        }
-
-        .whatsapp-btn i {
-            margin-right: 8px;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            grid-column: 1 / -1;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .edit-btn {
-            display: inline-block;
-            margin-top: 5px;
-            padding: 8px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light-color);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-            width: 100%;
-        }
-
-        .edit-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        .image-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             height: 100%;
+            object-fit: cover;
         }
-
+        
+        .cart-item-details {
+            flex-grow: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .cart-item-price {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+        
+        .quantity-btn {
+            background: rgba(106, 17, 203, 0.3);
+            border: 1px solid rgba(106, 17, 203, 0.5);
+            color: var(--light);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: rgba(106, 17, 203, 0.6);
+            transform: scale(1.1);
+        }
+        
+        .quantity {
+            margin: 0 12px;
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .remove-btn {
+            background: rgba(255, 71, 87, 0.2);
+            border: 1px solid rgba(255, 71, 87, 0.5);
+            color: #ff4757;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-btn:hover {
+            background: rgba(255, 71, 87, 0.4);
+            transform: scale(1.1);
+        }
+        
+        .cart-total {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(106, 17, 203, 0.3);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .checkout-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .checkout-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .checkout-btn:hover::before {
+            left: 100%;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.4);
+        }
+        
+        .whatsapp-info {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--gray);
+        }
+        
+        .empty-cart i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: var(--gray);
+        }
+        
+        .cart-dropdown {
+            position: absolute;
+            top: 70px;
+            right: 30px;
+            width: 450px;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(106, 17, 203, 0.4);
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .cart-dropdown.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .dropdown-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(106, 17, 203, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dropdown-header h3 {
+            font-size: 18px;
+            color: var(--light);
+        }
+        
+        .close-dropdown {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-dropdown:hover {
+            color: var(--accent);
+        }
+        
+        .dropdown-content {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 0 20px;
+        }
+        
+        .dropdown-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(106, 17, 203, 0.3);
+        }
+        
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(106, 17, 203, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: var(--accent);
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-dropdown {
+                width: 400px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
             
-            .search-section {
-                flex-direction: column;
+            .cart-dropdown {
+                width: 350px;
+                right: 20px;
             }
             
-            .search-box {
-                min-width: 100%;
+            .header-content {
+                padding: 0 20px;
+            }
+            
+            .search-container {
+                padding: 0 20px;
             }
         }
+        
+        @media (max-width: 480px) {
+            .cart-dropdown {
+                width: calc(100vw - 40px);
+                right: 20px;
+            }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, opacity 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 350px;
+        }
+        
+        .notification.success {
+            background: rgba(46, 213, 115, 0.9);
+            border-left: 4px solid #2ed573;
+        }
+        
+        .notification.error {
+            background: rgba(255, 71, 87, 0.9);
+            border-left: 4px solid #ff4757;
+        }
+        
+        .notification i {
+            font-size: 20px;
+        }
+        
+        .cart-item-code {
+            color: var(--gray);
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">GRUPOAMICIS</div>
-            <div class="tagline">Exportadora e Importadora Amicis - Sistema de Gestión de Productos</div>
-        </header>
-
-        <div class="search-section">
-            <div class="search-box">
-                <input type="text" id="searchInput" class="search-input" placeholder="Buscar productos por nombre...">
+            <div class="header-content">
+                <div class="logo"><i class="fas fa-cube"></i> TIENDA FUTURISTA</div>
+                <div class="cart-icon-container">
+                    <div class="cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
             </div>
-            <button class="search-btn" id="searchBtn">
-                <i class="fas fa-search"></i> Buscar
+            <div class="search-container">
+                <input type="text" class="search-box" id="searchBox" placeholder="Buscar productos...">
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="products-section">
+                <h2 class="section-title"><i class="fas fa-box-open"></i> Catálogo de Productos</h2>
+                <div class="products-grid" id="productsGrid">
+                    <!-- Los productos se cargarán aquí con JavaScript -->
+                </div>
+            </div>
+            
+            <div class="cart-section">
+                <h2 class="cart-title"><i class="fas fa-shopping-cart"></i> Tu Carrito</h2>
+                <div class="cart-items" id="cartItems">
+                    <div class="empty-cart" id="emptyCart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Tu carrito está vacío</p>
+                    </div>
+                </div>
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">$0.00</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">
+                    <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
+                </button>
+                <div class="whatsapp-info">
+                    Te contactaremos al: +593 98 612 2265
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dropdown del carrito -->
+    <div class="cart-dropdown" id="cartDropdown">
+        <div class="dropdown-header">
+            <h3><i class="fas fa-shopping-cart"></i> Tu Carrito</h3>
+            <button class="close-dropdown" id="closeDropdown">
+                <i class="fas fa-times"></i>
             </button>
         </div>
-
-        <div class="qr-section">
-            <input type="text" id="qrInput" class="qr-input" placeholder="Buscar por código QR...">
-            <button class="search-btn" id="qrSearchBtn">
-                <i class="fas fa-qrcode"></i> Buscar por QR
+        <div class="dropdown-content" id="dropdownContent">
+            <!-- Los elementos del carrito se cargarán aquí -->
+        </div>
+        <div class="dropdown-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="dropdownTotal">$0.00</span>
+            </div>
+            <button class="checkout-btn" id="dropdownCheckoutBtn">
+                <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
             </button>
         </div>
-
-        <div class="products-grid" id="productsContainer">
-            <!-- Los productos se cargarán aquí con JavaScript -->
-        </div>
-
-        <footer>
-            <p>Exportadora e Importadora Amicis GRUPOAMICIS S.A. &copy; 2023 - Todos los derechos reservados</p>
-        </footer>
     </div>
 
     <script>
-        // Generar 100 productos con imágenes foto1.jpg a foto100.jpg
-        const products = [];
-        for (let i = 1; i <= 100; i++) {
-            products.push({
-                id: i,
-                name: `Producto ${i}`,
-                image: `foto${i}.jpg`,
-                concept: `Este es el producto ${i} de Exportadora e Importadora Amicis. Diseñado para ofrecer máxima calidad y rendimiento en su categoría.`,
-                price: Math.floor(Math.random() * 500) + 50, // Precio aleatorio entre 50 y 550
-                qr: `AMC${i.toString().padStart(3, '0')}`
+        // Datos de productos
+        const products = [
+            {
+                code: "6852345547511",
+                name: "AM HIGH QUALITY MOSQUITO NET. MOSQUITERO",
+                price: 10.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "7861038062483",
+                name: "ANTIBACTERIANTE",
+                price: 2.10,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "6202110243207",
+                name: "KIT PARA BEBE ACCESORIO HOGAR AM",
+                price: 1.60,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1192 11",
+                name: "ARCOIRIS CH_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1530 11",
+                name: "BORDE DE COLOR CH_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1484 11",
+                name: "BROCHE UNICOLOR CH_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1415 11",
+                name: "ESCARCHADO CON BROCHE CH_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1507 11",
+                name: "FLOWERS CADENA CH_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1179 11",
+                name: "LADYS SENCILLO CH_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1438 11",
+                name: "LOVE CORAZON CH_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1462 11",
+                name: "MAX AMOR - CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1311 11",
+                name: "MAX ANILLO_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1403 11",
+                name: "MAX ANILLO_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1167 11",
+                name: "MAX CADENA CORAZONES CH_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1144 11",
+                name: "MAX CORAZON_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1180 11",
+                name: "MAX LADYS SENCILLO CH_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1052 11",
+                name: "MAX MATE CHINA_CARCASA",
+                price: 0.20,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1216 11",
+                name: "MAX MATIZADO - CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1356 11",
+                name: "MAX PERLAS_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1128 11",
+                name: "MAX PROTECTOR_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1334 11",
+                name: "MAX SUPREME_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2010.14.04.jpeg"
+            },
+            {
+                code: "HD1096 11",
+                name: "MAX TRANSPARENTE CH_CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            },
+            {
+                code: "HD1355 11",
+                name: "PERLAS - CARCASA",
+                price: 1.00,
+                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
+            }
+        ];
+
+        // Variables globales
+        let cart = [];
+        const cartItems = document.getElementById('cartItems');
+        const cartCount = document.getElementById('cartCount');
+        const cartTotal = document.getElementById('cartTotal');
+        const productsGrid = document.getElementById('productsGrid');
+        const searchBox = document.getElementById('searchBox');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const emptyCart = document.getElementById('emptyCart');
+        const cartIcon = document.getElementById('cartIcon');
+        const cartDropdown = document.getElementById('cartDropdown');
+        const closeDropdown = document.getElementById('closeDropdown');
+        const dropdownContent = document.getElementById('dropdownContent');
+        const dropdownTotal = document.getElementById('dropdownTotal');
+        const dropdownCheckoutBtn = document.getElementById('dropdownCheckoutBtn');
+
+        // Estado del dropdown
+        let isDropdownOpen = false;
+
+        // Inicializar la aplicación
+        function init() {
+            renderProducts(products);
+            loadCart();
+            updateCartUI();
+            
+            // Event listeners
+            searchBox.addEventListener('input', handleSearch);
+            checkoutBtn.addEventListener('click', handleCheckout);
+            cartIcon.addEventListener('click', toggleCartDropdown);
+            closeDropdown.addEventListener('click', closeCartDropdown);
+            dropdownCheckoutBtn.addEventListener('click', handleCheckout);
+            
+            // Cerrar dropdown al hacer clic fuera de él
+            document.addEventListener('click', (e) => {
+                // Solo cerrar si se hace clic fuera del dropdown y del icono del carrito
+                if (!cartDropdown.contains(e.target) && !cartIcon.contains(e.target)) {
+                    closeCartDropdown();
+                }
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const productsContainer = document.getElementById('productsContainer');
-            const searchInput = document.getElementById('searchInput');
-            const searchBtn = document.getElementById('searchBtn');
-            const qrInput = document.getElementById('qrInput');
-            const qrSearchBtn = document.getElementById('qrSearchBtn');
+        // Renderizar productos en el catálogo
+        function renderProducts(productsToRender) {
+            productsGrid.innerHTML = '';
+            
+            productsToRender.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentNode.innerHTML='Imagen no disponible'">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-code">Código: ${product.code}</div>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
+                        <button class="add-to-cart" data-code="${product.code}">
+                            <i class="fas fa-cart-plus"></i> Añadir al carrito
+                        </button>
+                    </div>
+                `;
+                
+                productsGrid.appendChild(productCard);
+            });
+            
+            // Añadir event listeners a los botones de añadir al carrito
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productCode = e.target.closest('.add-to-cart').dataset.code;
+                    addToCart(productCode);
+                });
+            });
+        }
 
-            // Función para renderizar productos
-            function renderProducts(productsToRender) {
-                productsContainer.innerHTML = '';
-                
-                if (productsToRender.length === 0) {
-                    productsContainer.innerHTML = `
-                        <div class="no-results">
-                            <i class="fas fa-search fa-3x" style="margin-bottom: 15px;"></i>
-                            <h3>No se encontraron productos</h3>
-                            <p>Intenta con otros términos de búsqueda</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                productsToRender.forEach(product => {
-                    const productCard = document.createElement('div');
-                    productCard.className = 'product-card';
-                    
-                    // Crear elemento de imagen con manejo de error
-                    const imgElement = document.createElement('img');
-                    imgElement.className = 'product-image';
-                    imgElement.alt = product.name;
-                    imgElement.src = product.image;
-                    
-                    // Si la imagen no carga, mostrar un placeholder
-                    imgElement.onerror = function() {
-                        this.src = '';
-                        this.innerHTML = `
-                            <div class="image-placeholder">
-                                <i class="fas fa-image fa-2x"></i>
-                                <div>foto${product.id}.jpg</div>
-                            </div>
-                        `;
-                        this.style.background = 'linear-gradient(45deg, #2d3047, #1a1a2e)';
-                        this.style.color = 'rgba(255, 255, 255, 0.5)';
-                        this.style.display = 'flex';
-                        this.style.alignItems = 'center';
-                        this.style.justifyContent = 'center';
-                        this.style.flexDirection = 'column';
-                    };
-                    
-                    productCard.innerHTML = `
-                        <div class="product-image-container"></div>
-                        <div class="product-info">
-                            <h3 class="product-name">${product.name}</h3>
-                            <p class="product-concept">${product.concept}</p>
-                            <div class="product-price">$${product.price} USD</div>
-                            <div class="product-qr">
-                                <div class="qr-code">${product.qr}</div>
-                                <div class="qr-text">Código QR: ${product.qr}</div>
-                            </div>
-                            <a href="https://wa.me/593986122265?text=Hola,%20estoy%20interesado%20en%20${encodeURIComponent(product.name)}" class="whatsapp-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-                            </a>
-                            <button class="edit-btn" onclick="editProduct(${product.id})">
-                                <i class="fas fa-edit"></i> Editar Producto
-                            </button>
-                        </div>
-                    `;
-                    
-                    // Insertar la imagen en el contenedor
-                    const imageContainer = productCard.querySelector('.product-image-container');
-                    imageContainer.appendChild(imgElement);
-                    
-                    productsContainer.appendChild(productCard);
+        // Manejar búsqueda de productos
+        function handleSearch() {
+            const searchTerm = searchBox.value.toLowerCase();
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) || 
+                product.code.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filteredProducts);
+        }
+
+        // Añadir producto al carrito
+        function addToCart(productCode) {
+            const product = products.find(p => p.code === productCode);
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.code === productCode);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
                 });
             }
-
-            // Función para buscar productos por nombre
-            function searchProducts() {
-                const searchTerm = searchInput.value.toLowerCase().trim();
-                if (searchTerm === '') {
-                    renderProducts(products);
-                    return;
-                }
-                
-                const filteredProducts = products.filter(product => 
-                    product.name.toLowerCase().includes(searchTerm) || 
-                    product.concept.toLowerCase().includes(searchTerm)
-                );
-                
-                renderProducts(filteredProducts);
-            }
-
-            // Función para buscar productos por QR
-            function searchByQR() {
-                const qrTerm = qrInput.value.toUpperCase().trim();
-                if (qrTerm === '') {
-                    renderProducts(products);
-                    return;
-                }
-                
-                const filteredProducts = products.filter(product => 
-                    product.qr.includes(qrTerm)
-                );
-                
-                renderProducts(filteredProducts);
-            }
-
-            // Función para editar producto
-            window.editProduct = function(productId) {
-                const product = products.find(p => p.id === productId);
-                if (product) {
-                    const newName = prompt("Nuevo nombre del producto:", product.name);
-                    if (newName !== null && newName.trim() !== '') {
-                        product.name = newName;
-                    }
-                    
-                    const newConcept = prompt("Nuevo concepto del producto:", product.concept);
-                    if (newConcept !== null && newConcept.trim() !== '') {
-                        product.concept = newConcept;
-                    }
-                    
-                    const newPrice = prompt("Nuevo precio del producto:", product.price);
-                    if (newPrice !== null && !isNaN(newPrice) && newPrice.trim() !== '') {
-                        product.price = parseFloat(newPrice);
-                    }
-                    
-                    const newQR = prompt("Nuevo código QR:", product.qr);
-                    if (newQR !== null && newQR.trim() !== '') {
-                        product.qr = newQR.toUpperCase();
-                    }
-                    
-                    renderProducts(products);
-                    alert("Producto actualizado correctamente");
-                }
-            }
-
-            // Event listeners
-            searchBtn.addEventListener('click', searchProducts);
-            qrSearchBtn.addEventListener('click', searchByQR);
             
-            searchInput.addEventListener('keyup', function(event) {
-                if (event.key === 'Enter') {
-                    searchProducts();
-                }
+            saveCart();
+            updateCartUI();
+            
+            // Mostrar notificación
+            showNotification(`${product.name} añadido al carrito`, 'success');
+        }
+
+        // Eliminar producto del carrito
+        function removeFromCart(productCode) {
+            cart = cart.filter(item => item.code !== productCode);
+            saveCart();
+            updateCartUI();
+            showNotification('Producto eliminado del carrito', 'error');
+        }
+
+        // Actualizar la interfaz del carrito
+        function updateCartUI() {
+            // Actualizar contador
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Actualizar lista de productos en el carrito
+            if (cart.length === 0) {
+                emptyCart.style.display = 'block';
+                cartItems.innerHTML = '';
+                cartItems.appendChild(emptyCart);
+            } else {
+                emptyCart.style.display = 'none';
+                cartItems.innerHTML = '';
+                
+                cart.forEach(item => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <div class="cart-item-image">
+                            <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentNode.innerHTML='Sin imagen'">
+                        </div>
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-code">Código: ${item.code}</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus" data-code="${item.code}">-</button>
+                                <span class="quantity">${item.quantity}</span>
+                                <button class="quantity-btn plus" data-code="${item.code}">+</button>
+                                <button class="remove-btn" data-code="${item.code}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    cartItems.appendChild(cartItem);
+                });
+                
+                // Añadir event listeners a los botones de cantidad
+                document.querySelectorAll('.quantity-btn.minus').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const productCode = e.target.closest('.quantity-btn').dataset.code;
+                        updateQuantity(productCode, -1);
+                    });
+                });
+                
+                document.querySelectorAll('.quantity-btn.plus').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const productCode = e.target.closest('.quantity-btn').dataset.code;
+                        updateQuantity(productCode, 1);
+                    });
+                });
+                
+                document.querySelectorAll('.remove-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const productCode = e.target.closest('.remove-btn').dataset.code;
+                        removeFromCart(productCode);
+                    });
+                });
+            }
+            
+            // Actualizar total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = `$${total.toFixed(2)}`;
+            
+            // Actualizar dropdown del carrito
+            updateCartDropdown();
+        }
+
+        // Actualizar cantidad de un producto en el carrito
+        function updateQuantity(productCode, change) {
+            const item = cart.find(item => item.code === productCode);
+            if (!item) return;
+            
+            item.quantity += change;
+            
+            if (item.quantity <= 0) {
+                cart = cart.filter(item => item.code !== productCode);
+            }
+            
+            saveCart();
+            updateCartUI();
+        }
+
+        // Guardar carrito en localStorage
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        // Cargar carrito desde localStorage
+        function loadCart() {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
+        }
+
+        // Mostrar/ocultar dropdown del carrito
+        function toggleCartDropdown() {
+            if (isDropdownOpen) {
+                closeCartDropdown();
+            } else {
+                openCartDropdown();
+            }
+        }
+
+        // Abrir dropdown del carrito
+        function openCartDropdown() {
+            cartDropdown.classList.add('active');
+            isDropdownOpen = true;
+        }
+
+        // Cerrar dropdown del carrito
+        function closeCartDropdown() {
+            cartDropdown.classList.remove('active');
+            isDropdownOpen = false;
+        }
+
+        // Actualizar contenido del dropdown del carrito
+        function updateCartDropdown() {
+            dropdownContent.innerHTML = '';
+            
+            if (cart.length === 0) {
+                dropdownContent.innerHTML = '<div class="empty-cart"><p>Tu carrito está vacío</p></div>';
+            } else {
+                cart.forEach(item => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <div class="cart-item-image">
+                            <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentNode.innerHTML='Sin imagen'">
+                        </div>
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-code">Código: ${item.code}</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus" data-code="${item.code}">-</button>
+                                <span class="quantity">${item.quantity}</span>
+                                <button class="quantity-btn plus" data-code="${item.code}">+</button>
+                                <button class="remove-btn" data-code="${item.code}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    dropdownContent.appendChild(cartItem);
+                });
+                
+                // Añadir event listeners a los botones de cantidad en el dropdown
+                document.querySelectorAll('.dropdown-content .quantity-btn.minus').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const productCode = e.target.closest('.quantity-btn').dataset.code;
+                        updateQuantity(productCode, -1);
+                    });
+                });
+                
+                document.querySelectorAll('.dropdown-content .quantity-btn.plus').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const productCode = e.target.closest('.quantity-btn').dataset.code;
+                        updateQuantity(productCode, 1);
+                    });
+                });
+                
+                document.querySelectorAll('.dropdown-content .remove-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const productCode = e.target.closest('.remove-btn').dataset.code;
+                        removeFromCart(productCode);
+                    });
+                });
+            }
+            
+            // Actualizar total en el dropdown
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            dropdownTotal.textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Manejar checkout (enviar por WhatsApp)
+        function handleCheckout() {
+            if (cart.length === 0) {
+                showNotification('El carrito está vacío', 'error');
+                return;
+            }
+            
+            const phoneNumber = "593986122265";
+            let message = "¡Hola! Me gustaría realizar la siguiente compra:\n\n";
+            
+            cart.forEach(item => {
+                message += `- ${item.name}\n  Código: ${item.code}\n  Cantidad: ${item.quantity}\n  Precio: $${(item.price * item.quantity).toFixed(2)}\n\n`;
             });
             
-            qrInput.addEventListener('keyup', function(event) {
-                if (event.key === 'Enter') {
-                    searchByQR();
-                }
-            });
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `TOTAL: $${total.toFixed(2)}`;
+            
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            window.open(whatsappURL, '_blank');
+            
+            // Cerrar el dropdown después de enviar
+            closeCartDropdown();
+        }
 
-            // Renderizar todos los productos al cargar la página
-            renderProducts(products);
-        });
+        // Mostrar notificación
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Inicializar la aplicación cuando se carga la página
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
