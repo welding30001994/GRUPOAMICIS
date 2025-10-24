@@ -1,292 +1,152 @@
+import os
+import json
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beaver Trading - Panel Principal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e0e0e0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-        
-        .header {
-            text-align: center;
-            padding: 30px 0;
-            margin-bottom: 30px;
-        }
-        
-        .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            color: #a0a0a0;
-            letter-spacing: 2px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            padding: 20px 0;
-        }
-        
-        .folder {
-            background: rgba(25, 25, 35, 0.7);
-            border-radius: 15px;
-            padding: 30px 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 1px solid rgba(0, 198, 255, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: block;
-            color: inherit;
-        }
-        
-        .folder::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
-        }
-        
-        .folder:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 114, 255, 0.4);
-            background: rgba(35, 35, 50, 0.9);
-        }
-        
-        .folder-icon {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            color: #00c6ff;
-            text-shadow: 0 0 10px rgba(0, 198, 255, 0.7);
-        }
-        
-        .folder-name {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 10px;
-        }
-        
-        .folder-desc {
-            font-size: 0.9rem;
-            color: #b0b0b0;
-            line-height: 1.5;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            color: #707070;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Efectos futuristas */
-        .glow {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 198, 255, 0.4) 0%, rgba(0, 198, 255, 0) 70%);
-            filter: blur(10px);
-            z-index: -1;
-            animation: pulse 6s infinite alternate;
-        }
-        
-        .glow-1 {
-            top: 10%;
-            left: 10%;
-        }
-        
-        .glow-2 {
-            bottom: 10%;
-            right: 10%;
-            animation-delay: 2s;
-        }
-        
-        .glow-3 {
-            top: 50%;
-            left: 70%;
-            animation-delay: 4s;
-        }
-        
-        @keyframes pulse {
-            0% {
-                transform: scale(0.8);
-                opacity: 0.6;
-            }
-            100% {
-                transform: scale(1.2);
-                opacity: 0.3;
-            }
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+def crear_archivo_html():
+    # Obtener todos los archivos .mp4 en la carpeta
+    videos = []
+    for i, archivo in enumerate(os.listdir('.'), 1):
+        if archivo.endswith('.mp4'):
+            nombre_base = os.path.splitext(archivo)[0]
+            videos.append({
+                'name': f"Video {i}",
+                'code': f"TIK{i:03d}",
+                'file': archivo
+            })
+    
+    # Crear el HTML
+    html_template = f"""
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mis Videos de TikTok</title>
+        <style>
+            body {{
+                font-family: Arial, sans-serif;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }}
+            
+            .search-container {{
+                margin-bottom: 20px;
+            }}
+            
+            #searchInput {{
+                width: 100%;
+                padding: 12px;
+                font-size: 16px;
+                border: 2px solid #ddd;
+                border-radius: 25px;
+                outline: none;
+            }}
+            
+            #searchInput:focus {{
+                border-color: #ff0050;
+            }}
+            
+            .video-grid {{
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
                 gap: 20px;
-            }
+            }}
             
-            .folder {
-                padding: 25px 15px;
-            }
+            .video-card {{
+                background: white;
+                border-radius: 10px;
+                padding: 15px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                transition: transform 0.3s ease;
+            }}
             
-            .folder-icon {
-                font-size: 3rem;
-            }
-        }
+            .video-card:hover {{
+                transform: translateY(-5px);
+            }}
+            
+            video {{
+                width: 100%;
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }}
+            
+            .video-info {{
+                padding: 10px 0;
+            }}
+            
+            .video-name {{
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 5px;
+            }}
+            
+            .video-code {{
+                color: #666;
+                font-size: 14px;
+                font-family: monospace;
+            }}
+        </style>
+    </head>
+    <body>
+        <h1>📱 Mis Videos de TikTok</h1>
         
-        @media (max-width: 480px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header {
-                padding: 20px 0;
-            }
-            
-            .logo {
-                font-size: 2rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="glow glow-1"></div>
-    <div class="glow glow-2"></div>
-    <div class="glow glow-3"></div>
-    
-    <div class="header">
-        <div class="logo">BEAVER TRADING</div>
-        <div class="subtitle">PANEL DE CONTROL PRINCIPAL</div>
-    </div>
-    
-    <div class="container">
-        <div class="grid">
-            <a href="./juguetes/index.html" class="folder">
-                <div class="folder-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <div class="folder-name">BOS CHOS</div>
-                <div class="folder-desc">Análisis de mercado y patrones de trading avanzados</div>
-            </a>
-            
-            <a href="./herramientas/index.html" class="folder">
-                <div class="folder-icon">
-                    <i class="fas fa-exchange-alt"></i>
-                </div>
-                <div class="folder-name">BUY Y SELL</div>
-                <div class="folder-desc">Operaciones de compra y venta en tiempo real</div>
-            </a>
-            
-            <a class='folder' href='/confirmacion/'>
-                <div class="folder-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="folder-name">CONFIRMATION</div>
-                <div class="folder-desc">Validación y confirmación de operaciones</div>
-            </a>
-            
-            <a class='folder' href='/orden/'>
-                <div class="folder-icon">
-                    <i class="fas fa-tasks"></i>
-                </div>
-                <div class="folder-name">ORDEN</div>
-                <div class="folder-desc">Gestión y seguimiento de órdenes de trading</div>
-            </a>
-            
-            <a class='folder' href='/compra/'>
-                <div class="folder-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <div class="folder-name">ORDERS COMPRA</div>
-                <div class="folder-desc">Órdenes de compra específicas y gestión</div>
-            </a>
-            
-            <a class='folder' href='/powell/'>
-                <div class="folder-icon">
-                    <i class="fas fa-landmark"></i>
-                </div>
-                <div class="folder-name">POWELL</div>
-                <div class="folder-desc">Análisis de políticas monetarias y su impacto</div>
-            </a>
-            
-            <a class='folder' href='/sweep/'>
-                <div class="folder-icon">
-                    <i class="fas fa-broom"></i>
-                </div>
-                <div class="folder-name">SWEEP</div>
-                <div class="folder-desc">Operaciones de barrido y limpieza de mercado</div>
-            </a>
-            
-            <a class='folder' href='/swing/'>
-                <div class="folder-icon">
-                    <i class="fas fa-wave-square"></i>
-                </div>
-                <div class="folder-name">SWING</div>
-                <div class="folder-desc">Estrategias de swing trading y análisis técnico</div>
-            </a>
-            
-            <a class='folder' href='/zoom/'>
-                <div class="folder-icon">
-                    <i class="fas fa-search-plus"></i>
-                </div>
-                <div class="folder-name">ZOOM</div>
-                <div class="folder-desc">Análisis detallado y ampliación de gráficos</div>
-            </a>
-            
-            <a class='folder' href='/videos/'>
-                <div class="folder-icon">
-                    <i class="fas fa-video"></i>
-                </div>
-                <div class="folder-name">VIDEOS</div>
-                <div class="folder-desc">Tutoriales, análisis y contenido multimedia</div>
-            </a>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="🔍 Buscar por nombre o código...">
         </div>
-    </div>
+        
+        <div class="video-grid" id="videoGrid">
+        </div>
+
+        <script>
+            const videos = {json.dumps(videos, indent=4)};
+            
+            const videoGrid = document.getElementById('videoGrid');
+            const searchInput = document.getElementById('searchInput');
+
+            function loadVideos(videosToLoad) {{
+                videoGrid.innerHTML = '';
+                
+                videosToLoad.forEach(video => {{
+                    const videoCard = document.createElement('div');
+                    videoCard.className = 'video-card';
+                    
+                    videoCard.innerHTML = `
+                        <video controls>
+                            <source src="${{video.file}}" type="video/mp4">
+                            Tu navegador no soporta el elemento video.
+                        </video>
+                        <div class="video-info">
+                            <div class="video-name">${{video.name}}</div>
+                            <div class="video-code">Código: ${{video.code}}</div>
+                        </div>
+                    `;
+                    
+                    videoGrid.appendChild(videoCard);
+                }});
+            }}
+
+            function searchVideos() {{
+                const searchTerm = searchInput.value.toLowerCase();
+                const filteredVideos = videos.filter(video => 
+                    video.name.toLowerCase().includes(searchTerm) ||
+                    video.code.toLowerCase().includes(searchTerm)
+                );
+                loadVideos(filteredVideos);
+            }}
+
+            searchInput.addEventListener('input', searchVideos);
+            loadVideos(videos);
+        </script>
+    </body>
+    </html>
+    """
     
-    <div class="footer">
-        Beaver Trading System &copy; 2023 - Panel de Control Futurista
-    </div>
-</body>
-</html>
+    # Guardar el archivo HTML
+    with open('index.html', 'w', encoding='utf-8') as f:
+        f.write(html_template)
+    
+    print(f"✅ Se creó el archivo index.html con {len(videos)} videos")
+
+if __name__ == "__main__":
+    crear_archivo_html()
