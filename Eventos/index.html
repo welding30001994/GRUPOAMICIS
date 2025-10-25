@@ -3,1226 +3,483 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda Futurista - Carrito de Compras</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Gestión de Productos</title>
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        :root {
-            --primary: #6a11cb;
-            --secondary: #2575fc;
-            --accent: #00ffcc;
-            --dark: #0a0a1a;
-            --darker: #050510;
-            --light: #f0f0ff;
-            --gray: #a0a0c0;
-        }
-        
         body {
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
-            color: var(--light);
+            background-color: #f5f5f5;
+            color: #333;
             line-height: 1.6;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(106, 17, 203, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(37, 117, 252, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(0, 255, 204, 0.05) 0%, transparent 50%);
-            z-index: -1;
+            padding: 20px;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
         
         header {
-            background: rgba(10, 10, 26, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(106, 17, 203, 0.3);
-            border-radius: 15px;
-            padding: 20px 0;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 30px;
-        }
-        
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 20px rgba(106, 17, 203, 0.5);
-        }
-        
-        .cart-icon-container {
-            position: relative;
-        }
-        
-        .cart-icon {
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--light);
-            background: rgba(106, 17, 203, 0.2);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(106, 17, 203, 0.5);
-        }
-        
-        .cart-icon:hover {
-            background: rgba(106, 17, 203, 0.4);
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(106, 17, 203, 0.5);
-        }
-        
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: #4a6fa5;
             color: white;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+        }
+        
+        .section {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: bold;
-            box-shadow: 0 0 10px rgba(106, 17, 203, 0.7);
         }
         
-        .search-container {
-            margin: 20px 0;
-            padding: 0 30px;
-        }
-        
-        .search-box {
+        input, button {
             width: 100%;
-            padding: 15px 25px;
-            background: rgba(10, 10, 26, 0.6);
-            border: 1px solid rgba(106, 17, 203, 0.4);
-            border-radius: 50px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             font-size: 16px;
-            color: var(--light);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            outline: none;
-            transition: all 0.3s ease;
         }
         
-        .search-box:focus {
-            border-color: var(--accent);
-            box-shadow: 0 5px 20px rgba(0, 255, 204, 0.3);
+        button {
+            background: #4a6fa5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
         }
         
-        .search-box::placeholder {
-            color: var(--gray);
+        button:hover {
+            background: #3a5a80;
         }
         
-        .main-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-        }
-        
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-        
-        .product-card {
-            background: rgba(10, 10, 26, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s ease;
-            border: 1px solid rgba(106, 17, 203, 0.2);
+        .camera-container {
             position: relative;
+            width: 100%;
+            height: 300px;
+            background: #333;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            overflow: hidden;
         }
         
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        #video {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.1));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 0;
+            object-fit: cover;
         }
         
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-            border-color: rgba(106, 17, 203, 0.5);
+        #capture-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            border: 4px solid #4a6fa5;
+            cursor: pointer;
         }
         
-        .product-card:hover::before {
-            opacity: 1;
+        .preview-container {
+            display: none;
+            text-align: center;
+        }
+        
+        #preview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .product-list {
+            margin-top: 20px;
+        }
+        
+        .product-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
         }
         
         .product-image {
-            width: 100%;
-            height: 200px;
+            width: 80px;
+            height: 80px;
             object-fit: cover;
-            background-color: var(--darker);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .product-card:hover .product-image img {
-            transform: scale(1.05);
+            border-radius: 5px;
+            margin-right: 15px;
         }
         
         .product-info {
-            padding: 20px;
-            position: relative;
-            z-index: 1;
+            flex: 1;
         }
         
         .product-name {
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 16px;
-            color: var(--light);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .product-prices {
+            color: #666;
+            font-size: 14px;
         }
         
         .product-code {
-            color: var(--gray);
+            color: #999;
             font-size: 12px;
-            margin-bottom: 12px;
         }
         
-        .product-price {
-            font-weight: bold;
-            color: var(--accent);
-            font-size: 20px;
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
-        }
-        
-        .add-to-cart {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .add-to-cart::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .add-to-cart:hover::before {
-            left: 100%;
-        }
-        
-        .add-to-cart:hover {
-            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.5);
-            transform: translateY(-2px);
-        }
-        
-        .cart-section {
-            background: rgba(10, 10, 26, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            height: fit-content;
-            border: 1px solid rgba(106, 17, 203, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .cart-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-        
-        .cart-title {
-            font-size: 24px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(106, 17, 203, 0.3);
+        .actions {
             display: flex;
-            align-items: center;
             gap: 10px;
-        }
-        
-        .cart-title i {
-            color: var(--accent);
-        }
-        
-        .cart-items {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-        }
-        
-        .cart-items::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .cart-items::-webkit-scrollbar-track {
-            background: rgba(10, 10, 26, 0.5);
-            border-radius: 10px;
-        }
-        
-        .cart-items::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-        }
-        
-        .cart-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(106, 17, 203, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .cart-item:hover {
-            background: rgba(106, 17, 203, 0.1);
-            border-radius: 10px;
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-        
-        .cart-item-image {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-right: 15px;
-            background-color: var(--darker);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray);
-            font-size: 12px;
-            border: 1px solid rgba(106, 17, 203, 0.3);
-            overflow: hidden;
-        }
-        
-        .cart-item-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .cart-item-details {
-            flex-grow: 1;
-        }
-        
-        .cart-item-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        
-        .cart-item-price {
-            color: var(--accent);
-            font-weight: bold;
-        }
-        
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            margin-top: 8px;
-        }
-        
-        .quantity-btn {
-            background: rgba(106, 17, 203, 0.3);
-            border: 1px solid rgba(106, 17, 203, 0.5);
-            color: var(--light);
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .quantity-btn:hover {
-            background: rgba(106, 17, 203, 0.6);
-            transform: scale(1.1);
-        }
-        
-        .quantity {
-            margin: 0 12px;
-            font-weight: bold;
-            min-width: 20px;
-            text-align: center;
-        }
-        
-        .remove-btn {
-            background: rgba(255, 71, 87, 0.2);
-            border: 1px solid rgba(255, 71, 87, 0.5);
-            color: #ff4757;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin-left: 10px;
-            transition: all 0.3s ease;
-        }
-        
-        .remove-btn:hover {
-            background: rgba(255, 71, 87, 0.4);
-            transform: scale(1.1);
-        }
-        
-        .cart-total {
-            font-size: 22px;
-            font-weight: bold;
             margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(106, 17, 203, 0.3);
-            display: flex;
-            justify-content: space-between;
         }
         
-        .checkout-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden;
+        .actions button {
+            flex: 1;
         }
         
-        .checkout-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .checkout-btn:hover::before {
-            left: 100%;
-        }
-        
-        .checkout-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.4);
-        }
-        
-        .whatsapp-info {
-            margin-top: 15px;
-            text-align: center;
-            font-size: 14px;
-            color: var(--gray);
-        }
-        
-        .empty-cart {
-            text-align: center;
-            padding: 30px 20px;
-            color: var(--gray);
-        }
-        
-        .empty-cart i {
-            font-size: 50px;
-            margin-bottom: 15px;
-            color: var(--gray);
-        }
-        
-        .cart-dropdown {
-            position: absolute;
-            top: 70px;
-            right: 30px;
-            width: 450px;
-            background: rgba(10, 10, 26, 0.95);
-            backdrop-filter: blur(15px);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(106, 17, 203, 0.4);
-            z-index: 1000;
+        .hidden {
             display: none;
-            overflow: hidden;
         }
         
-        .cart-dropdown.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
         
-        .dropdown-header {
-            padding: 20px;
-            border-bottom: 1px solid rgba(106, 17, 203, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
         
-        .dropdown-header h3 {
-            font-size: 18px;
-            color: var(--light);
-        }
-        
-        .close-dropdown {
-            background: none;
-            border: none;
-            color: var(--gray);
-            font-size: 20px;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        
-        .close-dropdown:hover {
-            color: var(--accent);
-        }
-        
-        .dropdown-content {
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 0 20px;
-        }
-        
-        .dropdown-footer {
-            padding: 20px;
-            border-top: 1px solid rgba(106, 17, 203, 0.3);
-        }
-        
-        .section-title {
-            font-size: 22px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(106, 17, 203, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .section-title i {
-            color: var(--accent);
-        }
-        
-        @media (max-width: 1024px) {
-            .main-content {
-                grid-template-columns: 1fr;
+        @media (max-width: 600px) {
+            .product-item {
+                flex-direction: column;
+                text-align: center;
             }
             
-            .cart-dropdown {
-                width: 400px;
+            .product-image {
+                margin-right: 0;
+                margin-bottom: 10px;
             }
-        }
-        
-        @media (max-width: 768px) {
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-            
-            .cart-dropdown {
-                width: 350px;
-                right: 20px;
-            }
-            
-            .header-content {
-                padding: 0 20px;
-            }
-            
-            .search-container {
-                padding: 0 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .cart-dropdown {
-                width: calc(100vw - 40px);
-                right: 20px;
-            }
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 10px;
-            z-index: 1000;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s, opacity 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            max-width: 350px;
-        }
-        
-        .notification.success {
-            background: rgba(46, 213, 115, 0.9);
-            border-left: 4px solid #2ed573;
-        }
-        
-        .notification.error {
-            background: rgba(255, 71, 87, 0.9);
-            border-left: 4px solid #ff4757;
-        }
-        
-        .notification i {
-            font-size: 20px;
-        }
-        
-        .cart-item-code {
-            color: var(--gray);
-            font-size: 11px;
-            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="header-content">
-                <div class="logo"><i class="fas fa-cube"></i> TIENDA FUTURISTA</div>
-                <div class="cart-icon-container">
-                    <div class="cart-icon" id="cartIcon">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <span class="cart-count" id="cartCount">0</span>
-                </div>
-            </div>
-            <div class="search-container">
-                <input type="text" class="search-box" id="searchBox" placeholder="Buscar productos...">
-            </div>
+            <h1>Gestión de Productos</h1>
+            <p>Registra productos con fotos y precios</p>
         </header>
         
-        <div class="main-content">
-            <div class="products-section">
-                <h2 class="section-title"><i class="fas fa-box-open"></i> Catálogo de Productos</h2>
-                <div class="products-grid" id="productsGrid">
-                    <!-- Los productos se cargarán aquí con JavaScript -->
-                </div>
+        <div class="section">
+            <h2>Tomar Foto del Producto</h2>
+            <div class="camera-container">
+                <video id="video" autoplay playsinline></video>
+                <button id="capture-btn"></button>
             </div>
             
-            <div class="cart-section">
-                <h2 class="cart-title"><i class="fas fa-shopping-cart"></i> Tu Carrito</h2>
-                <div class="cart-items" id="cartItems">
-                    <div class="empty-cart" id="emptyCart">
-                        <i class="fas fa-shopping-cart"></i>
-                        <p>Tu carrito está vacío</p>
-                    </div>
-                </div>
-                <div class="cart-total">
-                    <span>Total:</span>
-                    <span id="cartTotal">$0.00</span>
-                </div>
-                <button class="checkout-btn" id="checkoutBtn">
-                    <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
-                </button>
-                <div class="whatsapp-info">
-                    Te contactaremos al: +593 98 612 2265
-                </div>
+            <div class="preview-container">
+                <img id="preview" alt="Vista previa de la foto">
+                <button id="retake-btn">Volver a tomar foto</button>
             </div>
-        </div>
-    </div>
-
-    <!-- Dropdown del carrito -->
-    <div class="cart-dropdown" id="cartDropdown">
-        <div class="dropdown-header">
-            <h3><i class="fas fa-shopping-cart"></i> Tu Carrito</h3>
-            <button class="close-dropdown" id="closeDropdown">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="dropdown-content" id="dropdownContent">
-            <!-- Los elementos del carrito se cargarán aquí -->
-        </div>
-        <div class="dropdown-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="dropdownTotal">$0.00</span>
+            
+            <div class="form-group">
+                <label for="product-name">Nombre del Producto</label>
+                <input type="text" id="product-name" placeholder="Ingresa el nombre del producto">
             </div>
-            <button class="checkout-btn" id="dropdownCheckoutBtn">
-                <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
-            </button>
+            
+            <div class="form-group">
+                <label for="wholesale-price">Precio al por mayor</label>
+                <input type="number" id="wholesale-price" placeholder="Precio al por mayor" step="0.01">
+            </div>
+            
+            <div class="form-group">
+                <label for="sale-price">Precio de venta</label>
+                <input type="number" id="sale-price" placeholder="Precio de venta" step="0.01">
+            </div>
+            
+            <div class="form-group">
+                <label for="product-code">Código del producto</label>
+                <input type="text" id="product-code" placeholder="Código del producto">
+            </div>
+            
+            <button id="save-product">Guardar Producto</button>
+        </div>
+        
+        <div class="section">
+            <h2>Lista de Productos</h2>
+            <div id="message" class="message hidden"></div>
+            <div id="product-list" class="product-list">
+                <!-- Los productos se mostrarán aquí -->
+            </div>
+            
+            <div class="actions">
+                <button id="download-html">Descargar Listado HTML</button>
+                <button id="clear-all">Limpiar Todo</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Datos de productos
-        const products = [
-            {
-                code: "6852345547511",
-                name: "AM HIGH QUALITY MOSQUITO NET. MOSQUITERO",
-                price: 10.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "7861038062483",
-                name: "ANTIBACTERIANTE",
-                price: 2.10,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "6202110243207",
-                name: "KIT PARA BEBE ACCESORIO HOGAR AM",
-                price: 1.60,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1192 11",
-                name: "ARCOIRIS CH_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1530 11",
-                name: "BORDE DE COLOR CH_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1484 11",
-                name: "BROCHE UNICOLOR CH_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1415 11",
-                name: "ESCARCHADO CON BROCHE CH_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1507 11",
-                name: "FLOWERS CADENA CH_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1179 11",
-                name: "LADYS SENCILLO CH_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1438 11",
-                name: "LOVE CORAZON CH_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1462 11",
-                name: "MAX AMOR - CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1311 11",
-                name: "MAX ANILLO_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1403 11",
-                name: "MAX ANILLO_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1167 11",
-                name: "MAX CADENA CORAZONES CH_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1144 11",
-                name: "MAX CORAZON_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1180 11",
-                name: "MAX LADYS SENCILLO CH_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1052 11",
-                name: "MAX MATE CHINA_CARCASA",
-                price: 0.20,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1216 11",
-                name: "MAX MATIZADO - CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1356 11",
-                name: "MAX PERLAS_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1128 11",
-                name: "MAX PROTECTOR_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1334 11",
-                name: "MAX SUPREME_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2010.14.04.jpeg"
-            },
-            {
-                code: "HD1096 11",
-                name: "MAX TRANSPARENTE CH_CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            },
-            {
-                code: "HD1355 11",
-                name: "PERLAS - CARCASA",
-                price: 1.00,
-                image: "https://raw.githubusercontent.com/welding30001994/GRUPOAMICIS/refs/heads/main/all/WhatsApp%20Image%202025-10-18%20at%2012.37.46.jpeg"
-            }
-        ];
-
+        // Elementos DOM
+        const video = document.getElementById('video');
+        const captureBtn = document.getElementById('capture-btn');
+        const preview = document.getElementById('preview');
+        const previewContainer = document.querySelector('.preview-container');
+        const retakeBtn = document.getElementById('retake-btn');
+        const productName = document.getElementById('product-name');
+        const wholesalePrice = document.getElementById('wholesale-price');
+        const salePrice = document.getElementById('sale-price');
+        const productCode = document.getElementById('product-code');
+        const saveProductBtn = document.getElementById('save-product');
+        const productList = document.getElementById('product-list');
+        const downloadHtmlBtn = document.getElementById('download-html');
+        const clearAllBtn = document.getElementById('clear-all');
+        const message = document.getElementById('message');
+        
         // Variables globales
-        let cart = [];
-        const cartItems = document.getElementById('cartItems');
-        const cartCount = document.getElementById('cartCount');
-        const cartTotal = document.getElementById('cartTotal');
-        const productsGrid = document.getElementById('productsGrid');
-        const searchBox = document.getElementById('searchBox');
-        const checkoutBtn = document.getElementById('checkoutBtn');
-        const emptyCart = document.getElementById('emptyCart');
-        const cartIcon = document.getElementById('cartIcon');
-        const cartDropdown = document.getElementById('cartDropdown');
-        const closeDropdown = document.getElementById('closeDropdown');
-        const dropdownContent = document.getElementById('dropdownContent');
-        const dropdownTotal = document.getElementById('dropdownTotal');
-        const dropdownCheckoutBtn = document.getElementById('dropdownCheckoutBtn');
-
-        // Estado del dropdown
-        let isDropdownOpen = false;
-
-        // Inicializar la aplicación
-        function init() {
-            renderProducts(products);
-            loadCart();
-            updateCartUI();
-            
-            // Event listeners
-            searchBox.addEventListener('input', handleSearch);
-            checkoutBtn.addEventListener('click', handleCheckout);
-            cartIcon.addEventListener('click', toggleCartDropdown);
-            closeDropdown.addEventListener('click', closeCartDropdown);
-            dropdownCheckoutBtn.addEventListener('click', handleCheckout);
-            
-            // Cerrar dropdown al hacer clic fuera de él
-            document.addEventListener('click', (e) => {
-                // Solo cerrar si se hace clic fuera del dropdown y del icono del carrito
-                if (!cartDropdown.contains(e.target) && !cartIcon.contains(e.target)) {
-                    closeCartDropdown();
-                }
-            });
-        }
-
-        // Renderizar productos en el catálogo
-        function renderProducts(productsToRender) {
-            productsGrid.innerHTML = '';
-            
-            productsToRender.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                productCard.innerHTML = `
-                    <div class="product-image">
-                        <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentNode.innerHTML='Imagen no disponible'">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">${product.name}</div>
-                        <div class="product-code">Código: ${product.code}</div>
-                        <div class="product-price">$${product.price.toFixed(2)}</div>
-                        <button class="add-to-cart" data-code="${product.code}">
-                            <i class="fas fa-cart-plus"></i> Añadir al carrito
-                        </button>
-                    </div>
-                `;
+        let stream = null;
+        let capturedImage = null;
+        let products = JSON.parse(localStorage.getItem('products')) || [];
+        
+        // Inicializar cámara
+        async function initCamera() {
+            try {
+                // Intentar usar la cámara trasera
+                const constraints = {
+                    video: { 
+                        facingMode: 'environment',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
+                };
                 
-                productsGrid.appendChild(productCard);
-            });
-            
-            // Añadir event listeners a los botones de añadir al carrito
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const productCode = e.target.closest('.add-to-cart').dataset.code;
-                    addToCart(productCode);
-                });
-            });
-        }
-
-        // Manejar búsqueda de productos
-        function handleSearch() {
-            const searchTerm = searchBox.value.toLowerCase();
-            const filteredProducts = products.filter(product => 
-                product.name.toLowerCase().includes(searchTerm) || 
-                product.code.toLowerCase().includes(searchTerm)
-            );
-            renderProducts(filteredProducts);
-        }
-
-        // Añadir producto al carrito
-        function addToCart(productCode) {
-            const product = products.find(p => p.code === productCode);
-            if (!product) return;
-            
-            const existingItem = cart.find(item => item.code === productCode);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    ...product,
-                    quantity: 1
-                });
-            }
-            
-            saveCart();
-            updateCartUI();
-            
-            // Mostrar notificación
-            showNotification(`${product.name} añadido al carrito`, 'success');
-        }
-
-        // Eliminar producto del carrito
-        function removeFromCart(productCode) {
-            cart = cart.filter(item => item.code !== productCode);
-            saveCart();
-            updateCartUI();
-            showNotification('Producto eliminado del carrito', 'error');
-        }
-
-        // Actualizar la interfaz del carrito
-        function updateCartUI() {
-            // Actualizar contador
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCount.textContent = totalItems;
-            
-            // Actualizar lista de productos en el carrito
-            if (cart.length === 0) {
-                emptyCart.style.display = 'block';
-                cartItems.innerHTML = '';
-                cartItems.appendChild(emptyCart);
-            } else {
-                emptyCart.style.display = 'none';
-                cartItems.innerHTML = '';
-                
-                cart.forEach(item => {
-                    const cartItem = document.createElement('div');
-                    cartItem.className = 'cart-item';
-                    cartItem.innerHTML = `
-                        <div class="cart-item-image">
-                            <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentNode.innerHTML='Sin imagen'">
-                        </div>
-                        <div class="cart-item-details">
-                            <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-code">Código: ${item.code}</div>
-                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
-                            <div class="quantity-controls">
-                                <button class="quantity-btn minus" data-code="${item.code}">-</button>
-                                <span class="quantity">${item.quantity}</span>
-                                <button class="quantity-btn plus" data-code="${item.code}">+</button>
-                                <button class="remove-btn" data-code="${item.code}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    cartItems.appendChild(cartItem);
-                });
-                
-                // Añadir event listeners a los botones de cantidad
-                document.querySelectorAll('.quantity-btn.minus').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const productCode = e.target.closest('.quantity-btn').dataset.code;
-                        updateQuantity(productCode, -1);
-                    });
-                });
-                
-                document.querySelectorAll('.quantity-btn.plus').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const productCode = e.target.closest('.quantity-btn').dataset.code;
-                        updateQuantity(productCode, 1);
-                    });
-                });
-                
-                document.querySelectorAll('.remove-btn').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const productCode = e.target.closest('.remove-btn').dataset.code;
-                        removeFromCart(productCode);
-                    });
-                });
-            }
-            
-            // Actualizar total
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            cartTotal.textContent = `$${total.toFixed(2)}`;
-            
-            // Actualizar dropdown del carrito
-            updateCartDropdown();
-        }
-
-        // Actualizar cantidad de un producto en el carrito
-        function updateQuantity(productCode, change) {
-            const item = cart.find(item => item.code === productCode);
-            if (!item) return;
-            
-            item.quantity += change;
-            
-            if (item.quantity <= 0) {
-                cart = cart.filter(item => item.code !== productCode);
-            }
-            
-            saveCart();
-            updateCartUI();
-        }
-
-        // Guardar carrito en localStorage
-        function saveCart() {
-            localStorage.setItem('cart', JSON.stringify(cart));
-        }
-
-        // Cargar carrito desde localStorage
-        function loadCart() {
-            const savedCart = localStorage.getItem('cart');
-            if (savedCart) {
-                cart = JSON.parse(savedCart);
+                stream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = stream;
+            } catch (err) {
+                console.error('Error al acceder a la cámara:', err);
+                showMessage('No se pudo acceder a la cámara. Asegúrate de permitir el acceso.', 'error');
             }
         }
-
-        // Mostrar/ocultar dropdown del carrito
-        function toggleCartDropdown() {
-            if (isDropdownOpen) {
-                closeCartDropdown();
-            } else {
-                openCartDropdown();
-            }
-        }
-
-        // Abrir dropdown del carrito
-        function openCartDropdown() {
-            cartDropdown.classList.add('active');
-            isDropdownOpen = true;
-        }
-
-        // Cerrar dropdown del carrito
-        function closeCartDropdown() {
-            cartDropdown.classList.remove('active');
-            isDropdownOpen = false;
-        }
-
-        // Actualizar contenido del dropdown del carrito
-        function updateCartDropdown() {
-            dropdownContent.innerHTML = '';
+        
+        // Capturar foto
+        captureBtn.addEventListener('click', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             
-            if (cart.length === 0) {
-                dropdownContent.innerHTML = '<div class="empty-cart"><p>Tu carrito está vacío</p></div>';
-            } else {
-                cart.forEach(item => {
-                    const cartItem = document.createElement('div');
-                    cartItem.className = 'cart-item';
-                    cartItem.innerHTML = `
-                        <div class="cart-item-image">
-                            <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentNode.innerHTML='Sin imagen'">
-                        </div>
-                        <div class="cart-item-details">
-                            <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-code">Código: ${item.code}</div>
-                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
-                            <div class="quantity-controls">
-                                <button class="quantity-btn minus" data-code="${item.code}">-</button>
-                                <span class="quantity">${item.quantity}</span>
-                                <button class="quantity-btn plus" data-code="${item.code}">+</button>
-                                <button class="remove-btn" data-code="${item.code}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    dropdownContent.appendChild(cartItem);
-                });
-                
-                // Añadir event listeners a los botones de cantidad en el dropdown
-                document.querySelectorAll('.dropdown-content .quantity-btn.minus').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const productCode = e.target.closest('.quantity-btn').dataset.code;
-                        updateQuantity(productCode, -1);
-                    });
-                });
-                
-                document.querySelectorAll('.dropdown-content .quantity-btn.plus').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const productCode = e.target.closest('.quantity-btn').dataset.code;
-                        updateQuantity(productCode, 1);
-                    });
-                });
-                
-                document.querySelectorAll('.dropdown-content .remove-btn').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const productCode = e.target.closest('.remove-btn').dataset.code;
-                        removeFromCart(productCode);
-                    });
-                });
-            }
+            capturedImage = canvas.toDataURL('image/jpeg');
+            preview.src = capturedImage;
             
-            // Actualizar total en el dropdown
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            dropdownTotal.textContent = `$${total.toFixed(2)}`;
-        }
-
-        // Manejar checkout (enviar por WhatsApp)
-        function handleCheckout() {
-            if (cart.length === 0) {
-                showNotification('El carrito está vacío', 'error');
+            // Mostrar vista previa y ocultar cámara
+            document.querySelector('.camera-container').style.display = 'none';
+            previewContainer.style.display = 'block';
+        });
+        
+        // Volver a tomar foto
+        retakeBtn.addEventListener('click', () => {
+            previewContainer.style.display = 'none';
+            document.querySelector('.camera-container').style.display = 'block';
+            capturedImage = null;
+        });
+        
+        // Guardar producto
+        saveProductBtn.addEventListener('click', () => {
+            if (!capturedImage) {
+                showMessage('Debes tomar una foto del producto primero', 'error');
                 return;
             }
             
-            const phoneNumber = "593986122265";
-            let message = "¡Hola! Me gustaría realizar la siguiente compra:\n\n";
+            if (!productName.value.trim()) {
+                showMessage('El nombre del producto es obligatorio', 'error');
+                return;
+            }
             
-            cart.forEach(item => {
-                message += `- ${item.name}\n  Código: ${item.code}\n  Cantidad: ${item.quantity}\n  Precio: $${(item.price * item.quantity).toFixed(2)}\n\n`;
-            });
+            const product = {
+                id: Date.now(),
+                name: productName.value.trim(),
+                wholesalePrice: parseFloat(wholesalePrice.value) || 0,
+                salePrice: parseFloat(salePrice.value) || 0,
+                code: productCode.value.trim(),
+                image: capturedImage,
+                date: new Date().toLocaleString()
+            };
             
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            message += `TOTAL: $${total.toFixed(2)}`;
+            products.push(product);
+            saveProducts();
+            renderProducts();
+            clearForm();
             
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-            
-            window.open(whatsappURL, '_blank');
-            
-            // Cerrar el dropdown después de enviar
-            closeCartDropdown();
+            showMessage('Producto guardado correctamente', 'success');
+        });
+        
+        // Guardar productos en localStorage
+        function saveProducts() {
+            localStorage.setItem('products', JSON.stringify(products));
         }
-
-        // Mostrar notificación
-        function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-                <span>${message}</span>
+        
+        // Renderizar lista de productos
+        function renderProducts() {
+            if (products.length === 0) {
+                productList.innerHTML = '<p>No hay productos registrados aún.</p>';
+                return;
+            }
+            
+            productList.innerHTML = products.map(product => `
+                <div class="product-item">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-prices">
+                            Mayorista: $${product.wholesalePrice.toFixed(2)} | 
+                            Venta: $${product.salePrice.toFixed(2)}
+                        </div>
+                        <div class="product-code">Código: ${product.code}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Limpiar formulario
+        function clearForm() {
+            productName.value = '';
+            wholesalePrice.value = '';
+            salePrice.value = '';
+            productCode.value = '';
+            capturedImage = null;
+            previewContainer.style.display = 'none';
+            document.querySelector('.camera-container').style.display = 'block';
+        }
+        
+        // Descargar listado en HTML
+        downloadHtmlBtn.addEventListener('click', () => {
+            if (products.length === 0) {
+                showMessage('No hay productos para descargar', 'error');
+                return;
+            }
+            
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html lang="es">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Listado de Productos</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h1 { color: #333; }
+                        .product { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; }
+                        .product img { max-width: 150px; max-height: 150px; }
+                        .product-info { margin-top: 10px; }
+                        .product-name { font-weight: bold; font-size: 18px; }
+                        .product-prices { color: #666; margin: 5px 0; }
+                        .product-code { color: #999; font-size: 14px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Listado de Productos</h1>
+                    <p>Generado el: ${new Date().toLocaleString()}</p>
+                    ${products.map(product => `
+                        <div class="product">
+                            <img src="${product.image}" alt="${product.name}">
+                            <div class="product-info">
+                                <div class="product-name">${product.name}</div>
+                                <div class="product-prices">
+                                    Precio al por mayor: $${product.wholesalePrice.toFixed(2)}<br>
+                                    Precio de venta: $${product.salePrice.toFixed(2)}
+                                </div>
+                                <div class="product-code">Código: ${product.code}</div>
+                                <div class="product-date">Registrado: ${product.date}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </body>
+                </html>
             `;
             
-            document.body.appendChild(notification);
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'listado_productos.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showMessage('Listado descargado correctamente', 'success');
+        });
+        
+        // Limpiar todos los productos
+        clearAllBtn.addEventListener('click', () => {
+            if (confirm('¿Estás seguro de que quieres eliminar todos los productos?')) {
+                products = [];
+                saveProducts();
+                renderProducts();
+                showMessage('Todos los productos han sido eliminados', 'success');
+            }
+        });
+        
+        // Mostrar mensajes
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.classList.remove('hidden');
             
             setTimeout(() => {
-                notification.style.transform = 'translateX(100%)';
-                notification.style.opacity = '0';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
+                message.classList.add('hidden');
             }, 3000);
         }
-
-        // Inicializar la aplicación cuando se carga la página
-        document.addEventListener('DOMContentLoaded', init);
+        
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', () => {
+            initCamera();
+            renderProducts();
+        });
+        
+        // Detener la cámara cuando se cierre la página
+        window.addEventListener('beforeunload', () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        });
     </script>
 </body>
 </html>
